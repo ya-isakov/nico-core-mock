@@ -167,28 +167,24 @@ inventory:
                 - memType: DDR5
                   sizeMb: 32768
             networkInterfaces:
+                - macAddress: 58:A2:E1:5B:D1:B0
+                  pciProperties:
+                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+                    slot: "0000:01:00.0"
+                    vendor: Mellanox Technologies
                 - lldp:
                     portId: ifname=eth1/1
                     switchId: mac=00:01:00:00:01:00
                     switchSystemName: leaf-0
                   macAddress: "52:54:00:12:00:00"
                   pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth1
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/1
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:02"
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.1/net/eth2
-                    slot: "0000:01:00.1"
-                    vendor: Mellanox Technologies
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+                    slot: 0000:a3:00.0
+                    vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/2
                     switchId: mac=00:01:00:00:01:00
@@ -197,8 +193,19 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth3
-                    slot: 0000:a3:00.0
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+                    slot: 0000:a3:00.1
+                    vendor: Intel Corporation
+                - lldp:
+                    portId: ifname=eth1/1
+                    switchId: mac=00:01:00:00:01:01
+                    switchSystemName: leaf-1
+                  macAddress: "52:54:00:12:00:02"
+                  pciProperties:
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+                    slot: 0000:a3:00.2
                     vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/2
@@ -208,8 +215,8 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth4
-                    slot: 0000:a3:00.1
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+                    slot: 0000:a3:00.3
                     vendor: Intel Corporation
             nvmeDevices:
                 - firmwareRev: GDC5A02Q
@@ -372,28 +379,24 @@ inventory:
                 - memType: DDR5
                   sizeMb: 32768
             networkInterfaces:
+                - macAddress: 58:A2:E1:5B:D1:B1
+                  pciProperties:
+                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+                    slot: "0000:01:00.0"
+                    vendor: Mellanox Technologies
                 - lldp:
                     portId: ifname=eth1/3
                     switchId: mac=00:01:00:00:01:00
                     switchSystemName: leaf-0
                   macAddress: "52:54:00:12:00:04"
                   pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth1
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/3
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:06"
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.1/net/eth2
-                    slot: "0000:01:00.1"
-                    vendor: Mellanox Technologies
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+                    slot: 0000:a3:00.0
+                    vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/4
                     switchId: mac=00:01:00:00:01:00
@@ -402,8 +405,19 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth3
-                    slot: 0000:a3:00.0
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+                    slot: 0000:a3:00.1
+                    vendor: Intel Corporation
+                - lldp:
+                    portId: ifname=eth1/3
+                    switchId: mac=00:01:00:00:01:01
+                    switchSystemName: leaf-1
+                  macAddress: "52:54:00:12:00:06"
+                  pciProperties:
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+                    slot: 0000:a3:00.2
                     vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/4
@@ -413,8 +427,8 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth4
-                    slot: 0000:a3:00.1
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+                    slot: 0000:a3:00.3
                     vendor: Intel Corporation
             nvmeDevices:
                 - firmwareRev: GDC5A02Q
@@ -577,28 +591,24 @@ inventory:
                 - memType: DDR5
                   sizeMb: 32768
             networkInterfaces:
+                - macAddress: 58:A2:E1:5B:D1:B2
+                  pciProperties:
+                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+                    slot: "0000:01:00.0"
+                    vendor: Mellanox Technologies
                 - lldp:
                     portId: ifname=eth1/5
                     switchId: mac=00:01:00:00:01:00
                     switchSystemName: leaf-0
                   macAddress: "52:54:00:12:00:08"
                   pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth1
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/5
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: 52:54:00:12:00:0A
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.1/net/eth2
-                    slot: "0000:01:00.1"
-                    vendor: Mellanox Technologies
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+                    slot: 0000:a3:00.0
+                    vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/6
                     switchId: mac=00:01:00:00:01:00
@@ -607,8 +617,19 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth3
-                    slot: 0000:a3:00.0
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+                    slot: 0000:a3:00.1
+                    vendor: Intel Corporation
+                - lldp:
+                    portId: ifname=eth1/5
+                    switchId: mac=00:01:00:00:01:01
+                    switchSystemName: leaf-1
+                  macAddress: 52:54:00:12:00:0A
+                  pciProperties:
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+                    slot: 0000:a3:00.2
                     vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/6
@@ -618,8 +639,8 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth4
-                    slot: 0000:a3:00.1
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+                    slot: 0000:a3:00.3
                     vendor: Intel Corporation
             nvmeDevices:
                 - firmwareRev: GDC5A02Q
@@ -782,28 +803,24 @@ inventory:
                 - memType: DDR5
                   sizeMb: 32768
             networkInterfaces:
+                - macAddress: 58:A2:E1:5B:D1:B3
+                  pciProperties:
+                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+                    slot: "0000:01:00.0"
+                    vendor: Mellanox Technologies
                 - lldp:
                     portId: ifname=eth1/7
                     switchId: mac=00:01:00:00:01:00
                     switchSystemName: leaf-0
                   macAddress: 52:54:00:12:00:0C
                   pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth1
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/7
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: 52:54:00:12:00:0E
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.1/net/eth2
-                    slot: "0000:01:00.1"
-                    vendor: Mellanox Technologies
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+                    slot: 0000:a3:00.0
+                    vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/8
                     switchId: mac=00:01:00:00:01:00
@@ -812,8 +829,19 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth3
-                    slot: 0000:a3:00.0
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+                    slot: 0000:a3:00.1
+                    vendor: Intel Corporation
+                - lldp:
+                    portId: ifname=eth1/7
+                    switchId: mac=00:01:00:00:01:01
+                    switchSystemName: leaf-1
+                  macAddress: 52:54:00:12:00:0E
+                  pciProperties:
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+                    slot: 0000:a3:00.2
                     vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/8
@@ -823,8 +851,8 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth4
-                    slot: 0000:a3:00.1
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+                    slot: 0000:a3:00.3
                     vendor: Intel Corporation
             nvmeDevices:
                 - firmwareRev: GDC5A02Q
@@ -987,28 +1015,24 @@ inventory:
                 - memType: DDR5
                   sizeMb: 32768
             networkInterfaces:
+                - macAddress: 58:A2:E1:5B:D1:B4
+                  pciProperties:
+                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+                    slot: "0000:01:00.0"
+                    vendor: Mellanox Technologies
                 - lldp:
                     portId: ifname=eth1/9
                     switchId: mac=00:01:00:00:01:00
                     switchSystemName: leaf-0
                   macAddress: "52:54:00:12:00:10"
                   pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth1
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/9
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:12"
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.1/net/eth2
-                    slot: "0000:01:00.1"
-                    vendor: Mellanox Technologies
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+                    slot: 0000:a3:00.0
+                    vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/10
                     switchId: mac=00:01:00:00:01:00
@@ -1017,8 +1041,19 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth3
-                    slot: 0000:a3:00.0
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+                    slot: 0000:a3:00.1
+                    vendor: Intel Corporation
+                - lldp:
+                    portId: ifname=eth1/9
+                    switchId: mac=00:01:00:00:01:01
+                    switchSystemName: leaf-1
+                  macAddress: "52:54:00:12:00:12"
+                  pciProperties:
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+                    slot: 0000:a3:00.2
                     vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/10
@@ -1028,8 +1063,8 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth4
-                    slot: 0000:a3:00.1
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+                    slot: 0000:a3:00.3
                     vendor: Intel Corporation
             nvmeDevices:
                 - firmwareRev: GDC5A02Q
@@ -1192,28 +1227,24 @@ inventory:
                 - memType: DDR5
                   sizeMb: 32768
             networkInterfaces:
+                - macAddress: 58:A2:E1:5B:D1:B5
+                  pciProperties:
+                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+                    slot: "0000:01:00.0"
+                    vendor: Mellanox Technologies
                 - lldp:
                     portId: ifname=eth1/11
                     switchId: mac=00:01:00:00:01:00
                     switchSystemName: leaf-0
                   macAddress: "52:54:00:12:00:14"
                   pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth1
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/11
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:16"
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.1/net/eth2
-                    slot: "0000:01:00.1"
-                    vendor: Mellanox Technologies
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+                    slot: 0000:a3:00.0
+                    vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/12
                     switchId: mac=00:01:00:00:01:00
@@ -1222,8 +1253,19 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth3
-                    slot: 0000:a3:00.0
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+                    slot: 0000:a3:00.1
+                    vendor: Intel Corporation
+                - lldp:
+                    portId: ifname=eth1/11
+                    switchId: mac=00:01:00:00:01:01
+                    switchSystemName: leaf-1
+                  macAddress: "52:54:00:12:00:16"
+                  pciProperties:
+                    description: I350 Gigabit Network Connection
+                    device: I350 Gigabit Network Connection
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+                    slot: 0000:a3:00.2
                     vendor: Intel Corporation
                 - lldp:
                     portId: ifname=eth1/12
@@ -1233,8 +1275,8 @@ inventory:
                   pciProperties:
                     description: I350 Gigabit Network Connection
                     device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth4
-                    slot: 0000:a3:00.1
+                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+                    slot: 0000:a3:00.3
                     vendor: Intel Corporation
             nvmeDevices:
                 - firmwareRev: GDC5A02Q
