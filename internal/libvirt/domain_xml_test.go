@@ -37,6 +37,7 @@ func TestPatchDomainBootDiskXML(t *testing.T) {
 		`pool='default'`,
 		`volume='00000000-0000-4000-8000-000000000000-root'`,
 		`device='cdrom'`,
+		`<boot order='1'/>`,
 	} {
 		if !strings.Contains(updated, want) {
 			t.Fatalf("patched xml missing %q:\n%s", want, updated)
@@ -72,6 +73,34 @@ func TestPatchDomainBootDiskXMLPrefersBootOrder(t *testing.T) {
 	}
 	if !strings.Contains(updated, "old-secondary") {
 		t.Fatalf("expected secondary disk to remain unchanged:\n%s", updated)
+	}
+	if !strings.Contains(updated, `<boot order='1'/>`) {
+		t.Fatalf("expected boot order on primary disk:\n%s", updated)
+	}
+}
+
+func TestEnsureOSBootFromDisk(t *testing.T) {
+	const domainXML = `<domain type='kvm'>
+  <os>
+    <type arch='x86_64' machine='pc'>hvm</type>
+    <boot dev='network'/>
+  </os>
+  <devices>
+    <disk type='file' device='disk'>
+      <source file='/root.qcow2'/>
+    </disk>
+  </devices>
+</domain>`
+
+	updated, err := patchDomainBootDiskXML(domainXML, "/new", "qcow2", "default", "machine-root")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(updated, `dev='network'`) {
+		t.Fatalf("expected network boot removed:\n%s", updated)
+	}
+	if !strings.Contains(updated, `<boot dev='hd'/>`) {
+		t.Fatalf("expected disk boot in os section:\n%s", updated)
 	}
 }
 

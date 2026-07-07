@@ -285,7 +285,8 @@ func patchDomainBootDiskXML(xmlDesc, volPath, diskFormat, poolName, volName stri
 		return "", err
 	}
 
-	return xmlDesc[:loc[0]] + updatedBlock + xmlDesc[loc[1]:], nil
+	updated := xmlDesc[:loc[0]] + updatedBlock + xmlDesc[loc[1]:]
+	return ensureOSBootFromDisk(updated), nil
 }
 
 func selectBootDiskIndex(matches [][]int, xmlDesc string) int {
@@ -357,7 +358,57 @@ func patchDiskBlock(diskXML, volPath, diskFormat, poolName, volName string) (str
 	updated := setAttribute(match[1], "type", "volume") + diskXML[len(match[1]):]
 	updated = replaceOrInsertDriver(updated, diskFormat)
 	updated = replaceOrInsertSource(updated, volPath, poolName, volName)
+	updated = ensureDiskBootOrder(updated, 1)
 	return updated, nil
+}
+
+func ensureDiskBootOrder(diskXML string, order int) string {
+	replacement := fmt.Sprintf(`<boot order='%d'/>`, order)
+	bootPattern := regexp.MustCompile(`(?s)<boot\b[^>]*/>`)
+	if bootPattern.MatchString(diskXML) {
+		return bootPattern.ReplaceAllString(diskXML, replacement)
+	}
+
+	targetPattern := regexp.MustCompile(`(?s)<target\b[^>]*/>`)
+	if loc := targetPattern.FindStringIndex(diskXML); loc != nil {
+		return diskXML[:loc[1]] + "\n      " + replacement + diskXML[loc[1]:]
+	}
+
+	driverPattern := regexp.MustCompile(`(?s)<driver\b[^>]*/>`)
+	if loc := driverPattern.FindStringIndex(diskXML); loc != nil {
+		return diskXML[:loc[1]] + "\n      " + replacement + diskXML[loc[1]:]
+	}
+
+	openTag := regexp.MustCompile(`(?s)^(<disk\b[^>]*>)`).FindStringSubmatch(diskXML)
+	if len(openTag) == 2 {
+		return openTag[1] + "\n      " + replacement + diskXML[len(openTag[1]):]
+	}
+
+	return diskXML
+}
+
+func ensureOSBootFromDisk(xmlDesc string) string {
+	if regexp.MustCompile(`(?s)<boot\b[^>]*\bdev=['"]hd['"]`).MatchString(xmlDesc) {
+		return xmlDesc
+	}
+
+	osPattern := regexp.MustCompile(`(?s)(<os\b[^>]*>)(.*?)(</os>)`)
+	match := osPattern.FindStringSubmatch(xmlDesc)
+	if len(match) != 4 {
+		return xmlDesc
+	}
+
+	inner := regexp.MustCompile(`(?s)\s*<boot\b[^>]*/>`).ReplaceAllString(match[2], "")
+	bootTag := "    <boot dev='hd'/>\n"
+
+	typePattern := regexp.MustCompile(`(?s)<type\b[^>]*/>`)
+	if loc := typePattern.FindStringIndex(inner); loc != nil {
+		inner = inner[:loc[1]] + "\n" + bootTag + inner[loc[1]:]
+	} else {
+		inner = "\n" + bootTag + inner
+	}
+
+	return match[1] + inner + match[3]
 }
 
 func replaceOrInsertDriver(diskXML, diskFormat string) string {
