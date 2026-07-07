@@ -118,7 +118,7 @@ machines:
                 slot: 0000:a3:00.0
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/2
+                portId: ifname=eth1/12
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:01"
@@ -140,7 +140,7 @@ machines:
                 slot: 0000:a3:00.2
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/2
+                portId: ifname=eth1/12
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: "52:54:00:12:00:03"
@@ -319,7 +319,7 @@ machines:
                 slot: "0000:01:00.0"
                 vendor: Mellanox Technologies
             - lldp:
-                portId: ifname=eth1/3
+                portId: ifname=eth1/2
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:04"
@@ -330,7 +330,7 @@ machines:
                 slot: 0000:a3:00.0
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/4
+                portId: ifname=eth1/13
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:05"
@@ -341,7 +341,7 @@ machines:
                 slot: 0000:a3:00.1
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/3
+                portId: ifname=eth1/2
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: "52:54:00:12:00:06"
@@ -352,7 +352,7 @@ machines:
                 slot: 0000:a3:00.2
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/4
+                portId: ifname=eth1/13
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: "52:54:00:12:00:07"
@@ -531,7 +531,7 @@ machines:
                 slot: "0000:01:00.0"
                 vendor: Mellanox Technologies
             - lldp:
-                portId: ifname=eth1/5
+                portId: ifname=eth1/3
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:08"
@@ -542,7 +542,7 @@ machines:
                 slot: 0000:a3:00.0
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/6
+                portId: ifname=eth1/14
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:09"
@@ -553,7 +553,7 @@ machines:
                 slot: 0000:a3:00.1
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/5
+                portId: ifname=eth1/3
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: 52:54:00:12:00:0A
@@ -564,7 +564,7 @@ machines:
                 slot: 0000:a3:00.2
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/6
+                portId: ifname=eth1/14
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: 52:54:00:12:00:0B
@@ -743,7 +743,7 @@ machines:
                 slot: "0000:01:00.0"
                 vendor: Mellanox Technologies
             - lldp:
-                portId: ifname=eth1/7
+                portId: ifname=eth1/4
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: 52:54:00:12:00:0C
@@ -754,7 +754,7 @@ machines:
                 slot: 0000:a3:00.0
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/8
+                portId: ifname=eth1/15
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: 52:54:00:12:00:0D
@@ -765,7 +765,7 @@ machines:
                 slot: 0000:a3:00.1
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/7
+                portId: ifname=eth1/4
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: 52:54:00:12:00:0E
@@ -776,7 +776,7 @@ machines:
                 slot: 0000:a3:00.2
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/8
+                portId: ifname=eth1/15
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: 52:54:00:12:00:0F
@@ -955,7 +955,7 @@ machines:
                 slot: "0000:01:00.0"
                 vendor: Mellanox Technologies
             - lldp:
-                portId: ifname=eth1/9
+                portId: ifname=eth1/5
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:10"
@@ -966,7 +966,7 @@ machines:
                 slot: 0000:a3:00.0
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/10
+                portId: ifname=eth1/16
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:11"
@@ -977,7 +977,7 @@ machines:
                 slot: 0000:a3:00.1
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/9
+                portId: ifname=eth1/5
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: "52:54:00:12:00:12"
@@ -988,7 +988,7 @@ machines:
                 slot: 0000:a3:00.2
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/10
+                portId: ifname=eth1/16
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: "52:54:00:12:00:13"
@@ -1167,7 +1167,7 @@ machines:
                 slot: "0000:01:00.0"
                 vendor: Mellanox Technologies
             - lldp:
-                portId: ifname=eth1/11
+                portId: ifname=eth1/6
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:14"
@@ -1178,7 +1178,7 @@ machines:
                 slot: 0000:a3:00.0
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/12
+                portId: ifname=eth1/17
                 switchId: mac=00:01:00:00:01:00
                 switchSystemName: leaf-0
               macAddress: "52:54:00:12:00:15"
@@ -1189,7 +1189,7 @@ machines:
                 slot: 0000:a3:00.1
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/11
+                portId: ifname=eth1/6
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: "52:54:00:12:00:16"
@@ -1200,7 +1200,7 @@ machines:
                 slot: 0000:a3:00.2
                 vendor: Intel Corporation
             - lldp:
-                portId: ifname=eth1/12
+                portId: ifname=eth1/17
                 switchId: mac=00:01:00:00:01:01
                 switchSystemName: leaf-1
               macAddress: "52:54:00:12:00:17"
