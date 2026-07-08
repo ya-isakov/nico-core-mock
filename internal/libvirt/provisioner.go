@@ -1,7 +1,6 @@
 package libvirt
 
 import (
-	"bytes"
 	"context"
 	"encoding/xml"
 	"fmt"
@@ -95,6 +94,16 @@ func (p *Provisioner) ProvisionMachine(ctx context.Context, req ProvisionRequest
 	}
 	defer body.Close()
 
+	if strings.TrimSpace(req.UserData) != "" {
+		var cleanupImage func()
+		body, imageSize, cleanupImage, err = materializeImageWithNoCloudSeed(body, imageFormat, req)
+		if err != nil {
+			return err
+		}
+		defer cleanupImage()
+		defer body.Close()
+	}
+
 	volCapacity := rootVolumeCapacity(imageSize, req.ImageCapacityBytes, p.cfg.DefaultVolumeBytes)
 	vol, err := createVolume(l, pool, volName, volCapacity, imageFormat)
 	if err != nil {
@@ -128,9 +137,15 @@ func (p *Provisioner) ProvisionMachine(ctx context.Context, req ProvisionRequest
 		return err
 	}
 
-	domain, err = p.attachConfigDrive(l, pool, domain, machineID, req)
+	domain, err = p.cleanupConfigDrive(l, pool, domain, machineID)
 	if err != nil {
 		return err
+	}
+
+	if strings.TrimSpace(req.UserData) != "" {
+		log.Info().
+			Str("machine_id", machineID).
+			Msg("injected nocloud seed into root disk image")
 	}
 
 	if err := startDomain(l, domain, machineID); err != nil {
@@ -213,7 +228,13 @@ func (p *Provisioner) startExistingDomain(ctx context.Context, req ProvisionRequ
 		return fmt.Errorf("lookup storage pool %q: %w", p.cfg.StoragePool, err)
 	}
 
-	domain, err = p.attachConfigDrive(l, pool, domain, machineID, req)
+	if strings.TrimSpace(req.UserData) != "" {
+		log.Warn().
+			Str("machine_id", machineID).
+			Msg("userdata provided without image URL; cloud-init seed not injected (reprovision with image to apply)")
+	}
+
+	domain, err = p.cleanupConfigDrive(l, pool, domain, machineID)
 	if err != nil {
 		return err
 	}
@@ -226,43 +247,11 @@ func (p *Provisioner) startExistingDomain(ctx context.Context, req ProvisionRequ
 	return nil
 }
 
-func (p *Provisioner) attachConfigDrive(l *golibvirt.Libvirt, pool golibvirt.StoragePool, domain golibvirt.Domain, machineID string, req ProvisionRequest) (golibvirt.Domain, error) {
-	userData := strings.TrimSpace(req.UserData)
-	if userData == "" {
-		domain, err := removeDomainConfigDrive(l, domain)
-		if err != nil {
-			return golibvirt.Domain{}, err
-		}
-		return domain, nil
-	}
-
-	instanceID := strings.TrimSpace(req.InstanceID)
-	if instanceID == "" {
-		instanceID = machineID
-	}
-
-	isoBytes, err := BuildConfigDriveISO(userData, instanceID, req.InstanceName)
-	if err != nil {
+func (p *Provisioner) cleanupConfigDrive(l *golibvirt.Libvirt, pool golibvirt.StoragePool, domain golibvirt.Domain, machineID string) (golibvirt.Domain, error) {
+	if err := deleteVolumeIfExists(l, pool, configDriveVolumeName(machineID)); err != nil {
 		return golibvirt.Domain{}, err
 	}
-
-	volName := configDriveVolumeName(machineID)
-	if err := uploadVolumeData(l, pool, volName, isoVolumeCapacity(len(isoBytes)), "raw", bytes.NewReader(isoBytes)); err != nil {
-		return golibvirt.Domain{}, err
-	}
-
-	domain, err = updateDomainConfigDrive(l, domain, p.cfg.StoragePool, volName)
-	if err != nil {
-		return golibvirt.Domain{}, err
-	}
-
-	log.Info().
-		Str("machine_id", machineID).
-		Str("config_volume", volName).
-		Int("iso_bytes", len(isoBytes)).
-		Msg("attached config drive cdrom")
-
-	return domain, nil
+	return removeDomainConfigDrive(l, domain)
 }
 
 func deleteVolumeIfExists(l *golibvirt.Libvirt, pool golibvirt.StoragePool, name string) error {

@@ -20,18 +20,11 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext:
-  runAsNonRoot: true
-  runAsUser: 65532
-  runAsGroup: 65532
-  fsGroup: 65532
+# Optional extra pod securityContext merged into the chart default (runAsUser/runAsGroup/fsGroup: 0).
+podSecurityContext: {}
 
-securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  capabilities:
-    drop:
-      - ALL
+# Optional extra container securityContext merged into the chart default (privileged, writable rootfs).
+securityContext: {}
 
 service:
   type: ClusterIP
@@ -56,11 +49,6 @@ libvirt:
   storagePool: default
   # Default root volume size when the OS image does not specify capacity.
   volumeGiB: 20
-  # guestfish needs elevated container permissions to modify disk images.
-  privileged: true
-  mountKVM: true
-  mountHostDev: true
-  mountLibModules: true
 
 # Persist VPCs, instances, and other runtime Forge state across pod restarts.
 persistence:
