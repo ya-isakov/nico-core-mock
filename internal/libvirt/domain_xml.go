@@ -330,7 +330,7 @@ func patchDomainBootDiskXML(xmlDesc, volPath, diskFormat, poolName, volName stri
 	}
 
 	updated := xmlDesc[:loc[0]] + updatedBlock + xmlDesc[loc[1]:]
-	return ensureOSBootFromDisk(updated), nil
+	return stripOSBootElements(updated), nil
 }
 
 func selectBootDiskIndex(matches [][]int, xmlDesc string) int {
@@ -431,28 +431,13 @@ func ensureDiskBootOrder(diskXML string, order int) string {
 	return diskXML
 }
 
-func ensureOSBootFromDisk(xmlDesc string) string {
-	if regexp.MustCompile(`(?s)<boot\b[^>]*\bdev=['"]hd['"]`).MatchString(xmlDesc) {
-		return xmlDesc
-	}
-
-	osPattern := regexp.MustCompile(`(?s)(<os\b[^>]*>)(.*?)(</os>)`)
-	match := osPattern.FindStringSubmatch(xmlDesc)
-	if len(match) != 4 {
-		return xmlDesc
-	}
-
-	inner := regexp.MustCompile(`(?s)\s*<boot\b[^>]*/>`).ReplaceAllString(match[2], "")
-	bootTag := "    <boot dev='hd'/>\n"
-
-	typePattern := regexp.MustCompile(`(?s)<type\b[^>]*/>`)
-	if loc := typePattern.FindStringIndex(inner); loc != nil {
-		inner = inner[:loc[1]] + "\n" + bootTag + inner[loc[1]:]
-	} else {
-		inner = "\n" + bootTag + inner
-	}
-
-	return match[1] + inner + match[3]
+// stripOSBootElements removes legacy <os><boot dev='...'/></os> entries.
+// Per-device <boot order='N'/> on disks must not be combined with os/boot elements.
+func stripOSBootElements(xmlDesc string) string {
+	osPattern := regexp.MustCompile(`(?s)<os\b[^>]*>.*?</os>`)
+	return osPattern.ReplaceAllStringFunc(xmlDesc, func(osBlock string) string {
+		return regexp.MustCompile(`(?s)\s*<boot\b[^>]*/>`).ReplaceAllString(osBlock, "")
+	})
 }
 
 func replaceOrInsertDriver(diskXML, diskFormat string) string {

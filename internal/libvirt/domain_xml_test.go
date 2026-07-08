@@ -79,11 +79,12 @@ func TestPatchDomainBootDiskXMLPrefersBootOrder(t *testing.T) {
 	}
 }
 
-func TestEnsureOSBootFromDisk(t *testing.T) {
+func TestPatchDomainBootDiskXMLStripsOSBoot(t *testing.T) {
 	const domainXML = `<domain type='kvm'>
   <os>
     <type arch='x86_64' machine='pc'>hvm</type>
     <boot dev='network'/>
+    <boot dev='hd'/>
   </os>
   <devices>
     <disk type='file' device='disk'>
@@ -96,11 +97,11 @@ func TestEnsureOSBootFromDisk(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if strings.Contains(updated, `dev='network'`) {
-		t.Fatalf("expected network boot removed:\n%s", updated)
+	if strings.Contains(updated, `<boot dev=`) {
+		t.Fatalf("expected os/boot elements removed:\n%s", updated)
 	}
-	if !strings.Contains(updated, `<boot dev='hd'/>`) {
-		t.Fatalf("expected disk boot in os section:\n%s", updated)
+	if !strings.Contains(updated, `<boot order='1'/>`) {
+		t.Fatalf("expected per-device boot order on root disk:\n%s", updated)
 	}
 }
 
