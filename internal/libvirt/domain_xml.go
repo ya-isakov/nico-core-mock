@@ -46,6 +46,50 @@ func updateDomainConfigDrive(l *golibvirt.Libvirt, domain golibvirt.Domain, pool
 	return defined, nil
 }
 
+func removeDomainConfigDrive(l *golibvirt.Libvirt, domain golibvirt.Domain) (golibvirt.Domain, error) {
+	xmlDesc, err := l.DomainGetXMLDesc(domain, 0)
+	if err != nil {
+		return golibvirt.Domain{}, fmt.Errorf("get domain xml: %w", err)
+	}
+
+	updated, changed := stripConfigDriveDisks(xmlDesc)
+	if !changed {
+		return domain, nil
+	}
+
+	defined, err := l.DomainDefineXML(updated)
+	if err != nil {
+		return golibvirt.Domain{}, fmt.Errorf("remove domain config drive: %w", err)
+	}
+
+	return defined, nil
+}
+
+func stripConfigDriveDisks(xmlDesc string) (string, bool) {
+	matches := domainDiskPattern.FindAllStringSubmatchIndex(xmlDesc, -1)
+	if len(matches) == 0 {
+		return xmlDesc, false
+	}
+
+	changed := false
+	var out strings.Builder
+	last := 0
+	for _, loc := range matches {
+		block := xmlDesc[loc[0]:loc[1]]
+		if !isCDROMDisk(block) {
+			continue
+		}
+		out.WriteString(xmlDesc[last:loc[0]])
+		last = loc[1]
+		changed = true
+	}
+	if !changed {
+		return xmlDesc, false
+	}
+	out.WriteString(xmlDesc[last:])
+	return out.String(), true
+}
+
 func patchDomainConfigDriveXML(xmlDesc, poolName, volName string) (string, error) {
 	targetDev, targetBus := resolveConfigDriveTarget(xmlDesc, volName)
 

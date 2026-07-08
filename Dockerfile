@@ -23,13 +23,25 @@ RUN go build \
     -o /nico-core-mock \
     ./cmd/nico-core-mock
 
-FROM gcr.io/distroless/static-debian12:nonroot
+FROM debian:bookworm-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        kmod \
+        mount \
+        qemu-utils \
+        libguestfs-tools \
+        qemu-system-x86 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV LIBGUESTFS_BACKEND=direct
 
 COPY --from=builder /nico-core-mock /nico-core-mock
 COPY nico-core-mock/helm/nico-rest-mock-core/rendered/machines.yaml /config/machines.yaml
 
 EXPOSE 11079
 
-USER nonroot:nonroot
+USER root
 ENTRYPOINT ["/nico-core-mock"]
 CMD ["--config", "/config/machines.yaml", "--listen", ":11079"]

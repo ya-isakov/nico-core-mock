@@ -13,24 +13,19 @@ import (
 
 const configDriveVolumeLabel = "config-2"
 
-// BuildConfigDriveISO builds an OpenStack config-2 ISO containing user-data only.
-// network_data is intentionally omitted so cloud-init leaves network configuration unchanged.
-func BuildConfigDriveISO(userData, instanceUUID, instanceName string) ([]byte, error) {
-	userData = strings.TrimSpace(userData)
-	if userData == "" {
-		return nil, fmt.Errorf("user-data is required")
-	}
-	instanceUUID = strings.TrimSpace(instanceUUID)
-	if instanceUUID == "" {
-		return nil, fmt.Errorf("instance uuid is required")
+// BuildConfigDriveISO builds an OpenStack config-2 ISO for cloud-init.
+// Network configuration is moved from user-data into network_data.json when present.
+func BuildConfigDriveISO(userData, instanceID, instanceName string) ([]byte, error) {
+	seed, err := BuildNoCloudSeed(userData, instanceID, instanceName)
+	if err != nil {
+		return nil, err
 	}
 
-	meta := map[string]string{"uuid": instanceUUID}
-	if instanceName = strings.TrimSpace(instanceName); instanceName != "" {
-		meta["name"] = instanceName
-		meta["hostname"] = instanceName
+	meta := map[string]string{"uuid": instanceID}
+	if name := strings.TrimSpace(instanceName); name != "" {
+		meta["name"] = name
+		meta["hostname"] = name
 	}
-
 	metaData, err := json.Marshal(meta)
 	if err != nil {
 		return nil, fmt.Errorf("marshal meta_data.json: %w", err)
@@ -45,8 +40,13 @@ func BuildConfigDriveISO(userData, instanceUUID, instanceName string) ([]byte, e
 	if err := writer.AddFile(bytes.NewReader(metaData), "openstack/latest/meta_data.json"); err != nil {
 		return nil, fmt.Errorf("add meta_data.json: %w", err)
 	}
-	if err := writer.AddFile(strings.NewReader(userData), "openstack/latest/user_data"); err != nil {
+	if err := writer.AddFile(strings.NewReader(seed.UserData), "openstack/latest/user_data"); err != nil {
 		return nil, fmt.Errorf("add user_data: %w", err)
+	}
+	if networkData := strings.TrimSpace(seed.NetworkData); networkData != "" {
+		if err := writer.AddFile(strings.NewReader(networkData), "openstack/latest/network_data.json"); err != nil {
+			return nil, fmt.Errorf("add network_data.json: %w", err)
+		}
 	}
 
 	var buf bytes.Buffer
@@ -55,10 +55,6 @@ func BuildConfigDriveISO(userData, instanceUUID, instanceName string) ([]byte, e
 	}
 
 	return buf.Bytes(), nil
-}
-
-func configDriveVolumeName(machineID string) string {
-	return machineID + "-config"
 }
 
 func isoVolumeCapacity(size int) uint64 {

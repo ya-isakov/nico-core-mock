@@ -24,12 +24,28 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "nico-rest-mock-core.serviceAccountName" . }}
+      {{- if .Values.libvirt.enabled }}
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+      {{- else }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ include "nico-rest-mock-core.name" . }}
+          {{- if .Values.libvirt.enabled }}
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            privileged: {{ .Values.libvirt.privileged }}
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+          {{- else }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" | quote }}
           args:
@@ -70,10 +86,31 @@ spec:
             - name: state
               mountPath: {{ .Values.persistence.mountPath }}
             {{- end }}
+            {{- if and .Values.libvirt.enabled .Values.libvirt.mountKVM (not .Values.libvirt.mountHostDev) }}
+            - name: kvm
+              mountPath: /dev/kvm
+            {{- end }}
+            {{- if and .Values.libvirt.enabled .Values.libvirt.mountHostDev }}
+            - name: dev
+              mountPath: /dev
+            {{- end }}
+            {{- if and .Values.libvirt.enabled .Values.libvirt.mountLibModules }}
+            - name: lib-modules
+              mountPath: /lib/modules
+              readOnly: true
+            {{- end }}
+            {{- if .Values.libvirt.enabled }}
+            - name: var-lock
+              mountPath: /var/lock
+            - name: run
+              mountPath: /run
+            {{- end }}
             {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
           env:
+            - name: LIBGUESTFS_BACKEND
+              value: direct
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -85,6 +122,30 @@ spec:
         - name: state
           persistentVolumeClaim:
             claimName: {{ include "nico-rest-mock-core.fullname" . }}-state
+        {{- end }}
+        {{- if and .Values.libvirt.enabled .Values.libvirt.mountKVM (not .Values.libvirt.mountHostDev) }}
+        - name: kvm
+          hostPath:
+            path: /dev/kvm
+            type: CharDevice
+        {{- end }}
+        {{- if and .Values.libvirt.enabled .Values.libvirt.mountHostDev }}
+        - name: dev
+          hostPath:
+            path: /dev
+            type: Directory
+        {{- end }}
+        {{- if and .Values.libvirt.enabled .Values.libvirt.mountLibModules }}
+        - name: lib-modules
+          hostPath:
+            path: /lib/modules
+            type: Directory
+        {{- end }}
+        {{- if .Values.libvirt.enabled }}
+        - name: var-lock
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
         {{- end }}
         {{- with .Values.extraVolumes }}
         {{- toYaml . | nindent 8 }}

@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// ResolveTempDir returns the directory used for temporary files such as config-drive ISO staging.
+// ResolveTempDir returns the directory used for temporary files such as guestfish staging.
 func ResolveTempDir(explicit, stateFile string) string {
 	if dir := strings.TrimSpace(explicit); dir != "" {
 		return dir
@@ -22,7 +22,6 @@ func ResolveTempDir(explicit, stateFile string) string {
 }
 
 // ConfigureWritableTempDir ensures TMPDIR points at a writable directory.
-// The iso9660 library stages files on disk and requires a writable temp dir.
 func ConfigureWritableTempDir(explicit, stateFile string) (string, error) {
 	dir := ResolveTempDir(explicit, stateFile)
 	if err := os.MkdirAll(dir, 0o755); err != nil {

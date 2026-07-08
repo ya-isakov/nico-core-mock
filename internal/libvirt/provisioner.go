@@ -128,7 +128,7 @@ func (p *Provisioner) ProvisionMachine(ctx context.Context, req ProvisionRequest
 		return err
 	}
 
-	domain, err = p.attachConfigDrive(ctx, l, pool, domain, machineID, req)
+	domain, err = p.attachConfigDrive(l, pool, domain, machineID, req)
 	if err != nil {
 		return err
 	}
@@ -213,7 +213,7 @@ func (p *Provisioner) startExistingDomain(ctx context.Context, req ProvisionRequ
 		return fmt.Errorf("lookup storage pool %q: %w", p.cfg.StoragePool, err)
 	}
 
-	domain, err = p.attachConfigDrive(ctx, l, pool, domain, machineID, req)
+	domain, err = p.attachConfigDrive(l, pool, domain, machineID, req)
 	if err != nil {
 		return err
 	}
@@ -226,9 +226,13 @@ func (p *Provisioner) startExistingDomain(ctx context.Context, req ProvisionRequ
 	return nil
 }
 
-func (p *Provisioner) attachConfigDrive(ctx context.Context, l *golibvirt.Libvirt, pool golibvirt.StoragePool, domain golibvirt.Domain, machineID string, req ProvisionRequest) (golibvirt.Domain, error) {
+func (p *Provisioner) attachConfigDrive(l *golibvirt.Libvirt, pool golibvirt.StoragePool, domain golibvirt.Domain, machineID string, req ProvisionRequest) (golibvirt.Domain, error) {
 	userData := strings.TrimSpace(req.UserData)
 	if userData == "" {
+		domain, err := removeDomainConfigDrive(l, domain)
+		if err != nil {
+			return golibvirt.Domain{}, err
+		}
 		return domain, nil
 	}
 
@@ -256,7 +260,7 @@ func (p *Provisioner) attachConfigDrive(ctx context.Context, l *golibvirt.Libvir
 		Str("machine_id", machineID).
 		Str("config_volume", volName).
 		Int("iso_bytes", len(isoBytes)).
-		Msg("attached config drive")
+		Msg("attached config drive cdrom")
 
 	return domain, nil
 }
@@ -331,6 +335,10 @@ func volumeCapacity(imageSize int64, imageCapacityBytes, defaultBytes uint64) ui
 
 func volumeName(machineID string) string {
 	return machineID + "-root"
+}
+
+func configDriveVolumeName(machineID string) string {
+	return machineID + "-config"
 }
 
 func imageFormatFromURL(imageURL string) string {

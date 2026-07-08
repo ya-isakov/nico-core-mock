@@ -176,6 +176,31 @@ func TestPatchDomainConfigDriveXMLUpdatesExistingCDROM(t *testing.T) {
 	}
 }
 
+func TestStripConfigDriveDisks(t *testing.T) {
+	const domainXML = `<domain type='kvm'>
+  <devices>
+    <disk type='volume' device='disk'>
+      <source pool='default' volume='machine-root'/>
+    </disk>
+    <disk type='volume' device='cdrom'>
+      <source pool='default' volume='machine-config'/>
+      <readonly/>
+    </disk>
+  </devices>
+</domain>`
+
+	updated, changed := stripConfigDriveDisks(domainXML)
+	if !changed {
+		t.Fatal("expected config drive disk to be removed")
+	}
+	if strings.Contains(updated, "device='cdrom'") {
+		t.Fatalf("expected cdrom disk removed:\n%s", updated)
+	}
+	if !strings.Contains(updated, "machine-root") {
+		t.Fatalf("expected root disk preserved:\n%s", updated)
+	}
+}
+
 func TestPatchDomainConfigDriveXMLUsesSATAWithVirtioBootDisk(t *testing.T) {
 	const domainXML = `<domain type='kvm'>
   <os>

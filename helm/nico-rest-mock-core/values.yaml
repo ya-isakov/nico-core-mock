@@ -56,6 +56,11 @@ libvirt:
   storagePool: default
   # Default root volume size when the OS image does not specify capacity.
   volumeGiB: 20
+  # guestfish needs elevated container permissions to modify disk images.
+  privileged: true
+  mountKVM: true
+  mountHostDev: true
+  mountLibModules: true
 
 # Persist VPCs, instances, and other runtime Forge state across pod restarts.
 persistence:
