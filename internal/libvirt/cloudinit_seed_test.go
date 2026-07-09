@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"strings"
 	"testing"
-
-	"gopkg.in/yaml.v3"
 )
 
-func TestBuildNoCloudSeedMovesNetworkToNetworkData(t *testing.T) {
+func TestBuildNoCloudSeedPreservesRawUserData(t *testing.T) {
 	userData := `#cloud-config
 autoinstall:
   version: 1
@@ -29,76 +27,34 @@ runcmd:
 		t.Fatal(err)
 	}
 
-	if strings.Contains(seed.UserData, "network:") {
-		t.Fatalf("user-data should not contain network section:\n%s", seed.UserData)
+	if seed.UserData != userData {
+		t.Fatalf("user-data should be passed through unchanged:\n%s", seed.UserData)
 	}
-	if !strings.Contains(seed.UserData, "runcmd:") {
+	if strings.Contains(seed.UserData, "runcmd:") == false {
 		t.Fatalf("user-data should preserve bootstrap commands:\n%s", seed.UserData)
 	}
-	if !strings.Contains(seed.NetworkData, "version: 2") {
-		t.Fatalf("network-data missing netplan version:\n%s", seed.NetworkData)
-	}
-	if !strings.Contains(seed.NetworkData, "enp3s0:") {
-		t.Fatalf("network-data missing interface:\n%s", seed.NetworkData)
-	}
-	if !strings.Contains(seed.MetaData, "instance-id: instance-1") {
-		t.Fatalf("meta-data missing instance id:\n%s", seed.MetaData)
-	}
-	if !strings.Contains(seed.MetaData, "local-hostname: my-host") {
-		t.Fatalf("meta-data missing hostname:\n%s", seed.MetaData)
-	}
-}
-
-func TestBuildNoCloudSeedWithoutNetwork(t *testing.T) {
-	userData := "#cloud-config\npackages:\n  - curl\n"
-
-	seed, err := BuildNoCloudSeed(userData, "instance-1", "my-host")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if seed.NetworkData != "" {
-		t.Fatalf("expected empty network-data, got %q", seed.NetworkData)
-	}
-	if !strings.Contains(seed.UserData, "packages:") {
-		t.Fatalf("user-data not preserved:\n%s", seed.UserData)
-	}
-}
-
-func TestSplitNetworkFromUserDataPreservesOtherKeys(t *testing.T) {
-	userData := `#cloud-config
-write_files:
-  - path: /etc/motd
-    content: hello
-network:
-  version: 2
-  ethernets:
-    eth0:
-      dhcp4: true
-`
-
-	clean, networkData, err := splitNetworkFromUserData(userData)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	cfg := map[string]any{}
-	if err := yaml.Unmarshal([]byte(strings.TrimPrefix(clean, "#cloud-config\n")), &cfg); err != nil {
-		t.Fatal(err)
-	}
-	if _, ok := cfg["network"]; ok {
-		t.Fatal("network key should be removed from user-data")
-	}
-	if _, ok := cfg["write_files"]; !ok {
-		t.Fatal("write_files should remain in user-data")
-	}
-	if !strings.Contains(networkData, "eth0:") {
-		t.Fatalf("network-data missing interface:\n%s", networkData)
+	if !strings.Contains(seed.UserData, "network:") {
+		t.Fatalf("user-data should keep network section:\n%s", seed.UserData)
 	}
 }
 
 func TestBuildNoCloudSeedRequiresUserData(t *testing.T) {
 	if _, err := BuildNoCloudSeed("  ", "id", "name"); err == nil {
 		t.Fatal("expected error for empty user-data")
+	}
+}
+
+func TestWriteNoCloudSeedFilesOnlyUserData(t *testing.T) {
+	tmpDir := t.TempDir()
+	files, err := writeNoCloudSeedFiles(tmpDir, NoCloudSeed{UserData: "#cloud-config\npackages:\n  - curl\n"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(files) != 2 {
+		t.Fatalf("expected 2 seed files, got %d: %+v", len(files), files)
+	}
+	if files[1].remotePath != forgeUserDataPath {
+		t.Fatalf("unexpected user-data path: %s", files[1].remotePath)
 	}
 }
 
@@ -125,7 +81,7 @@ func TestLibguestfsToolEnvUsesDirectBackend(t *testing.T) {
 
 func TestVirtCustomizeArgsFormatBeforeDisk(t *testing.T) {
 	args := virtCustomizeArgs("/tmp/disk.qcow2", "qcow2", []seedFile{
-		{localPath: "/tmp/user-data", remotePath: "/var/lib/cloud/seed/nocloud-net/user-data"},
+		{localPath: "/tmp/99-user-data.cfg", remotePath: forgeUserDataPath},
 	})
 	if len(args) < 4 || args[0] != "--format" || args[2] != "-a" {
 		t.Fatalf("expected --format before -a, got %v", args)

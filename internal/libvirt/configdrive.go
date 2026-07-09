@@ -14,7 +14,6 @@ import (
 const configDriveVolumeLabel = "config-2"
 
 // BuildConfigDriveISO builds an OpenStack config-2 ISO for cloud-init.
-// Network configuration is moved from user-data into network_data.json when present.
 func BuildConfigDriveISO(userData, instanceID, instanceName string) ([]byte, error) {
 	seed, err := BuildNoCloudSeed(userData, instanceID, instanceName)
 	if err != nil {
@@ -42,11 +41,6 @@ func BuildConfigDriveISO(userData, instanceID, instanceName string) ([]byte, err
 	}
 	if err := writer.AddFile(strings.NewReader(seed.UserData), "openstack/latest/user_data"); err != nil {
 		return nil, fmt.Errorf("add user_data: %w", err)
-	}
-	if networkData := strings.TrimSpace(seed.NetworkData); networkData != "" {
-		if err := writer.AddFile(strings.NewReader(networkData), "openstack/latest/network_data.json"); err != nil {
-			return nil, fmt.Errorf("add network_data.json: %w", err)
-		}
 	}
 
 	var buf bytes.Buffer

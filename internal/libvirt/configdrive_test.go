@@ -67,23 +67,14 @@ runcmd:
 		t.Fatal(err)
 	}
 	userText := string(gotUser)
-	if strings.Contains(userText, "network:") {
-		t.Fatalf("user_data should not contain network section:\n%s", userText)
+	if !strings.Contains(userText, "network:") {
+		t.Fatalf("user_data should keep network section:\n%s", userText)
 	}
 	if !strings.Contains(userText, "runcmd:") {
 		t.Fatalf("user_data should preserve bootstrap commands:\n%s", userText)
 	}
-
-	networkReader, err := openISOFile(image, "openstack", "latest", "network_data.json")
-	if err != nil {
-		t.Fatal(err)
-	}
-	gotNetwork, err := io.ReadAll(networkReader)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !strings.Contains(string(gotNetwork), "enp3s0:") {
-		t.Fatalf("network_data missing interface:\n%s", string(gotNetwork))
+	if userText != userData {
+		t.Fatalf("user_data should be passed through unchanged:\n%s", userText)
 	}
 }
 
