@@ -130,41 +130,36 @@ func InjectNoCloudSeed(imagePath, format string, seed NoCloudSeed) error {
 		return err
 	}
 
+	if err := requireContainerRoot(); err != nil {
+		return err
+	}
+
 	var errs []error
 
-	if _, err := exec.LookPath("qemu-nbd"); err == nil {
-		if err := injectNoCloudSeedQEMUNBD(imagePath, format, tmpDir, files); err == nil {
+	if _, lookErr := exec.LookPath("virt-customize"); lookErr == nil {
+		injectErr := injectNoCloudSeedVirtCustomize(imagePath, format, tmpDir, files)
+		if injectErr == nil {
 			return nil
-		} else {
-			errs = append(errs, fmt.Errorf("qemu-nbd: %w", err))
+		}
+		if !isLibguestfsFallbackError(injectErr) {
+			errs = append(errs, fmt.Errorf("virt-customize: %w", injectErr))
 		}
 	}
 
-	if _, err := exec.LookPath("virt-customize"); err == nil {
-		// libguestfs is unreliable in containers; keep as best-effort fallback only.
-		if err := requireContainerRoot(); err != nil {
-			errs = append(errs, fmt.Errorf("virt-customize: %w", err))
-		} else if err := injectNoCloudSeedVirtCustomize(imagePath, format, tmpDir, files); err == nil {
+	if _, lookErr := exec.LookPath("guestfish"); lookErr == nil {
+		injectErr := injectNoCloudSeedGuestfish(imagePath, format, tmpDir, files)
+		if injectErr == nil {
 			return nil
-		} else if !isLibguestfsFallbackError(err) {
-			errs = append(errs, fmt.Errorf("virt-customize: %w", err))
 		}
-	}
-
-	if _, err := exec.LookPath("guestfish"); err == nil {
-		if err := requireContainerRoot(); err != nil {
-			errs = append(errs, fmt.Errorf("guestfish: %w", err))
-		} else if err := injectNoCloudSeedGuestfish(imagePath, format, tmpDir, files); err == nil {
-			return nil
-		} else if !isLibguestfsFallbackError(err) {
-			errs = append(errs, fmt.Errorf("guestfish: %w", err))
+		if !isLibguestfsFallbackError(injectErr) {
+			errs = append(errs, fmt.Errorf("guestfish: %w", injectErr))
 		}
 	}
 
 	if len(errs) > 0 {
 		return fmt.Errorf("inject nocloud seed failed: %w", errors.Join(errs...))
 	}
-	return fmt.Errorf("no tool available to inject nocloud seed (need qemu-nbd or libguestfs-tools)")
+	return fmt.Errorf("no tool available to inject nocloud seed (need libguestfs-tools)")
 }
 
 type seedFile struct {
@@ -281,9 +276,9 @@ func isSuperminError(err error) bool {
 }
 
 func libguestfsToolEnv(workDir string) []string {
-	env := os.Environ()
+	env := unsetEnvVar(os.Environ(), "LIBGUESTFS_HV")
 	env = setEnvVar(env, "LIBGUESTFS_BACKEND", libguestfsBackend)
-	env = setEnvVar(env, "LIBGUESTFS_HV", libguestfsHypervisor())
+	env = setEnvVar(env, "LIBGUESTFS_SKIP_OS_CHECK", "1")
 
 	tmp := strings.TrimSpace(workDir)
 	if tmp == "" {
@@ -297,17 +292,16 @@ func libguestfsToolEnv(workDir string) []string {
 	return env
 }
 
-func libguestfsHypervisor() string {
-	for _, candidate := range []string{
-		"qemu-system-x86_64",
-		"qemu-system-x86",
-		"kvm",
-	} {
-		if path, err := exec.LookPath(candidate); err == nil {
-			return path
+func unsetEnvVar(env []string, key string) []string {
+	prefix := key + "="
+	filtered := env[:0]
+	for _, entry := range env {
+		if strings.HasPrefix(entry, prefix) {
+			continue
 		}
+		filtered = append(filtered, entry)
 	}
-	return "qemu-system-x86_64"
+	return filtered
 }
 
 func setEnvVar(env []string, key, value string) []string {
@@ -322,17 +316,17 @@ func setEnvVar(env []string, key, value string) []string {
 	return append(filtered, prefix+value)
 }
 
-func materializeImageWithNoCloudSeed(body io.Reader, imageFormat string, req ProvisionRequest) (io.ReadCloser, int64, func(), error) {
+func materializeImageWithNoCloudSeed(body io.Reader, imageFormat string, req ProvisionRequest) (io.ReadCloser, int64, string, func(), error) {
 	noop := func() {}
 
 	userData := strings.TrimSpace(req.UserData)
 	if userData == "" {
-		return nil, 0, noop, fmt.Errorf("internal error: materializeImageWithNoCloudSeed called without user-data")
+		return nil, 0, imageFormat, noop, fmt.Errorf("internal error: materializeImageWithNoCloudSeed called without user-data")
 	}
 
-	tempFile, err := os.CreateTemp("", "nico-root-*.qcow2")
+	tempFile, err := os.CreateTemp("", "nico-root-*."+imageFormat)
 	if err != nil {
-		return nil, 0, noop, fmt.Errorf("create temp image file: %w", err)
+		return nil, 0, imageFormat, noop, fmt.Errorf("create temp image file: %w", err)
 	}
 	tempPath := tempFile.Name()
 	cleanup := func() {
@@ -342,12 +336,14 @@ func materializeImageWithNoCloudSeed(body io.Reader, imageFormat string, req Pro
 
 	if _, err := io.Copy(tempFile, body); err != nil {
 		cleanup()
-		return nil, 0, noop, fmt.Errorf("copy image to temp file: %w", err)
+		return nil, 0, imageFormat, noop, fmt.Errorf("copy image to temp file: %w", err)
 	}
 	if err := tempFile.Close(); err != nil {
 		cleanup()
-		return nil, 0, noop, fmt.Errorf("close temp image file: %w", err)
+		return nil, 0, imageFormat, noop, fmt.Errorf("close temp image file: %w", err)
 	}
+
+	imageFormat = resolveImageFormat(tempPath, imageFormat)
 
 	instanceID := strings.TrimSpace(req.InstanceID)
 	if instanceID == "" {
@@ -357,24 +353,24 @@ func materializeImageWithNoCloudSeed(body io.Reader, imageFormat string, req Pro
 	seed, err := BuildNoCloudSeed(userData, instanceID, req.InstanceName)
 	if err != nil {
 		cleanup()
-		return nil, 0, noop, err
+		return nil, 0, imageFormat, noop, err
 	}
 	if err := InjectNoCloudSeed(tempPath, imageFormat, seed); err != nil {
 		cleanup()
-		return nil, 0, noop, err
+		return nil, 0, imageFormat, noop, err
 	}
 
 	info, err := os.Stat(tempPath)
 	if err != nil {
 		cleanup()
-		return nil, 0, noop, fmt.Errorf("stat temp image file: %w", err)
+		return nil, 0, imageFormat, noop, fmt.Errorf("stat temp image file: %w", err)
 	}
 
 	opened, err := os.Open(tempPath)
 	if err != nil {
 		cleanup()
-		return nil, 0, noop, fmt.Errorf("open temp image file: %w", err)
+		return nil, 0, imageFormat, noop, fmt.Errorf("open temp image file: %w", err)
 	}
 
-	return opened, info.Size(), cleanup, nil
+	return opened, info.Size(), imageFormat, cleanup, nil
 }

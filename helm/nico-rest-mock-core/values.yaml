@@ -24,7 +24,8 @@ podAnnotations: {}
 podSecurityContext: {}
 
 # Optional extra container securityContext merged into the chart default (privileged, writable rootfs).
-securityContext: {}
+securityContext:
+  readOnlyRootFilesystem: false
 
 service:
   type: ClusterIP

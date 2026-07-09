@@ -28,11 +28,9 @@ FROM debian:bookworm-slim
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
-        kmod \
-        mount \
-        qemu-utils \
         libguestfs-tools \
         qemu-system-x86 \
+        linux-image-cloud-amd64 \
     && rm -rf /var/lib/apt/lists/*
 
 ENV LIBGUESTFS_BACKEND=direct

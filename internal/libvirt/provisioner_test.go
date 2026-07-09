@@ -1,6 +1,8 @@
 package libvirt
 
 import (
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -29,12 +31,36 @@ func TestImageFormatFromURL(t *testing.T) {
 	}{
 		{"https://example.com/image.qcow2", "qcow2"},
 		{"https://example.com/image.raw", "raw"},
-		{"https://example.com/image.img", "qcow2"},
+		{"https://example.com/image.img", "raw"},
 	}
 	for _, tc := range tests {
 		if got := imageFormatFromURL(tc.url); got != tc.want {
 			t.Fatalf("imageFormatFromURL(%q) = %q, want %q", tc.url, got, tc.want)
 		}
+	}
+}
+
+func TestDetectImageFormat(t *testing.T) {
+	dir := t.TempDir()
+
+	qcow2Path := filepath.Join(dir, "disk.qcow2")
+	if err := os.WriteFile(qcow2Path, []byte{0x51, 0x46, 0x49, 0xfb, 0x00}, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if got := detectImageFormat(qcow2Path); got != "qcow2" {
+		t.Fatalf("detectImageFormat(qcow2) = %q, want qcow2", got)
+	}
+
+	rawPath := filepath.Join(dir, "disk.raw")
+	if err := os.WriteFile(rawPath, []byte{0x00, 0x00, 0x00, 0x00}, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if got := detectImageFormat(rawPath); got != "raw" {
+		t.Fatalf("detectImageFormat(raw) = %q, want raw", got)
+	}
+
+	if got := resolveImageFormat(qcow2Path, "raw"); got != "qcow2" {
+		t.Fatalf("resolveImageFormat() = %q, want qcow2", got)
 	}
 }
 

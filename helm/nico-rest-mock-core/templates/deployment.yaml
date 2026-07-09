@@ -38,10 +38,10 @@ spec:
             runAsGroup: 0
             privileged: true
             allowPrivilegeEscalation: true
-            readOnlyRootFilesystem: false
             {{- with .Values.securityContext }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+            readOnlyRootFilesystem: false
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" | quote }}
           args:
@@ -84,9 +84,6 @@ spec:
             {{- end }}
             - name: dev
               mountPath: /dev
-            - name: lib-modules
-              mountPath: /lib/modules
-              readOnly: true
             - name: var-lock
               mountPath: /var/lock
             - name: run
@@ -112,10 +109,6 @@ spec:
         - name: dev
           hostPath:
             path: /dev
-            type: Directory
-        - name: lib-modules
-          hostPath:
-            path: /lib/modules
             type: Directory
         - name: var-lock
           emptyDir: {}

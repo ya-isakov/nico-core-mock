@@ -103,9 +103,17 @@ func TestBuildNoCloudSeedRequiresUserData(t *testing.T) {
 }
 
 func TestLibguestfsToolEnvUsesDirectBackend(t *testing.T) {
+	t.Setenv("LIBGUESTFS_HV", "/usr/bin/qemu-system-x86_64")
+
 	env := libguestfsToolEnv("/data/tmp")
 	if !containsEnv(env, "LIBGUESTFS_BACKEND=direct") {
 		t.Fatalf("expected direct backend, got %v", env)
+	}
+	if !containsEnv(env, "LIBGUESTFS_SKIP_OS_CHECK=1") {
+		t.Fatalf("expected LIBGUESTFS_SKIP_OS_CHECK, got %v", env)
+	}
+	if containsEnv(env, "LIBGUESTFS_HV=/usr/bin/qemu-system-x86_64") {
+		t.Fatalf("LIBGUESTFS_HV should not be set, got %v", env)
 	}
 	if !containsEnv(env, "TMPDIR=/data/tmp") {
 		t.Fatalf("expected TMPDIR, got %v", env)

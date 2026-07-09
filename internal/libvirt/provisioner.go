@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/xml"
 	"fmt"
+	"io"
+	"os"
 	"path"
 	"strings"
 
@@ -96,12 +98,19 @@ func (p *Provisioner) ProvisionMachine(ctx context.Context, req ProvisionRequest
 
 	if strings.TrimSpace(req.UserData) != "" {
 		var cleanupImage func()
-		body, imageSize, cleanupImage, err = materializeImageWithNoCloudSeed(body, imageFormat, req)
+		var materializedFormat string
+		body, imageSize, materializedFormat, cleanupImage, err = materializeImageWithNoCloudSeed(body, imageFormat, req)
 		if err != nil {
 			return err
 		}
+		imageFormat = materializedFormat
 		defer cleanupImage()
 		defer body.Close()
+	} else {
+		log.Warn().
+			Str("machine_id", machineID).
+			Str("image_url", req.ImageURL).
+			Msg("provisioning os image without user-data; nocloud seed not injected")
 	}
 
 	volCapacity := rootVolumeCapacity(imageSize, req.ImageCapacityBytes, p.cfg.DefaultVolumeBytes)
@@ -335,11 +344,35 @@ func imageFormatFromURL(imageURL string) string {
 	switch ext {
 	case ".qcow2":
 		return "qcow2"
-	case ".raw":
+	case ".raw", ".img":
 		return "raw"
 	default:
 		return "qcow2"
 	}
+}
+
+func detectImageFormat(path string) string {
+	file, err := os.Open(path)
+	if err != nil {
+		return ""
+	}
+	defer file.Close()
+
+	var magic [4]byte
+	if _, err := io.ReadFull(file, magic[:]); err != nil {
+		return ""
+	}
+	if magic[0] == 'Q' && magic[1] == 'F' && magic[2] == 'I' && magic[3] == 0xfb {
+		return "qcow2"
+	}
+	return "raw"
+}
+
+func resolveImageFormat(path, urlFormat string) string {
+	if detected := detectImageFormat(path); detected != "" {
+		return detected
+	}
+	return urlFormat
 }
 
 type volumeSpec struct {
