@@ -1,6 +1,3 @@
-# Mock host inventory under `inventory` is generated from infra-controller mockdata.
-# Regenerate: go run scripts/gen-discovery/main.go
-
 replicaCount: 1
 
 nameOverride: ""

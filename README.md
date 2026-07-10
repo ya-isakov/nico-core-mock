@@ -40,12 +40,6 @@ kubectl port-forward -n nico-rest svc/nico-rest-mock-core 11079:11079
 
 Mock hosts (machines + discovery metadata) are defined in `helm/nico-rest-mock-core/values.yaml` under the `inventory` key. The chart renders that into a ConfigMap at deploy time.
 
-To regenerate inventory from infra-controller `mockdata` after upstream changes:
-
-```bash
-go run scripts/gen-discovery/main.go
-```
-
 To run locally without Kubernetes:
 
 ```bash
