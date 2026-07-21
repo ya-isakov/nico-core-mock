@@ -790,6 +790,21 @@ func (f *NICoServerImpl) AssociateMachinesWithInstanceType(ctx context.Context, 
 	if len(req.MachineIds) == 0 {
 		return nil, status.Errorf(codes.InvalidArgument, "machine_ids is required")
 	}
+	for _, mid := range req.MachineIds {
+		machine, ok := f.m[mid]
+		if !ok {
+			return nil, status.Errorf(codes.NotFound, "Machine with ID %q not found", mid)
+		}
+		if machine.InstanceTypeId != nil && *machine.InstanceTypeId != "" && *machine.InstanceTypeId != req.InstanceTypeId {
+			return nil, status.Errorf(codes.AlreadyExists,
+				"machine %q already associated with InstanceType %q",
+				mid, *machine.InstanceTypeId)
+		}
+	}
+	itID := req.InstanceTypeId
+	for _, mid := range req.MachineIds {
+		f.m[mid].InstanceTypeId = &itID
+	}
 	return &cwssaws.AssociateMachinesWithInstanceTypeResponse{}, nil
 }
 
@@ -799,6 +814,9 @@ func (f *NICoServerImpl) RemoveMachineInstanceTypeAssociation(ctx context.Contex
 	}
 	if req.MachineId == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "machine_id is required")
+	}
+	if machine, ok := f.m[req.MachineId]; ok {
+		machine.InstanceTypeId = nil
 	}
 	return &cwssaws.RemoveMachineInstanceTypeAssociationResponse{}, nil
 }
