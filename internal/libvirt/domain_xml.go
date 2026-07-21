@@ -18,10 +18,13 @@ func updateDomainBootDisk(l *golibvirt.Libvirt, domain golibvirt.Domain, volPath
 	if err != nil {
 		return golibvirt.Domain{}, err
 	}
+	if err := requireDomainXMLRoot(updated); err != nil {
+		return golibvirt.Domain{}, fmt.Errorf("update domain boot disk: %w", err)
+	}
 
 	defined, err := l.DomainDefineXML(updated)
 	if err != nil {
-		return golibvirt.Domain{}, fmt.Errorf("update domain boot disk: %w", err)
+		return golibvirt.Domain{}, fmt.Errorf("update domain boot disk: %w (xml starts with %q)", err, xmlPrefix(updated, 120))
 	}
 
 	return defined, nil
@@ -433,11 +436,47 @@ func ensureDiskBootOrder(diskXML string, order int) string {
 
 // stripOSBootElements removes legacy <os><boot dev='...'/></os> entries.
 // Per-device <boot order='N'/> on disks must not be combined with os/boot elements.
+// The full domain document is preserved; only <boot/> children inside <os> are removed.
 func stripOSBootElements(xmlDesc string) string {
 	osPattern := regexp.MustCompile(`(?s)<os\b[^>]*>.*?</os>`)
-	return osPattern.ReplaceAllStringFunc(xmlDesc, func(osBlock string) string {
-		return regexp.MustCompile(`(?s)\s*<boot\b[^>]*/>`).ReplaceAllString(osBlock, "")
-	})
+	bootPattern := regexp.MustCompile(`(?s)\s*<boot\b[^>]*/>`)
+
+	matches := osPattern.FindAllStringIndex(xmlDesc, -1)
+	if len(matches) == 0 {
+		return xmlDesc
+	}
+
+	var out strings.Builder
+	last := 0
+	for _, loc := range matches {
+		out.WriteString(xmlDesc[last:loc[0]])
+		osBlock := xmlDesc[loc[0]:loc[1]]
+		out.WriteString(bootPattern.ReplaceAllString(osBlock, ""))
+		last = loc[1]
+	}
+	out.WriteString(xmlDesc[last:])
+	return out.String()
+}
+
+func requireDomainXMLRoot(xmlDesc string) error {
+	trimmed := strings.TrimSpace(xmlDesc)
+	if strings.HasPrefix(trimmed, "<?xml") {
+		if idx := strings.Index(trimmed, "?>"); idx >= 0 {
+			trimmed = strings.TrimSpace(trimmed[idx+2:])
+		}
+	}
+	if strings.HasPrefix(trimmed, "<domain") {
+		return nil
+	}
+	return fmt.Errorf("patched domain xml has unexpected root (starts with %q)", xmlPrefix(trimmed, 80))
+}
+
+func xmlPrefix(xmlDesc string, n int) string {
+	trimmed := strings.TrimSpace(xmlDesc)
+	if len(trimmed) <= n {
+		return trimmed
+	}
+	return trimmed[:n] + "..."
 }
 
 func replaceOrInsertDriver(diskXML, diskFormat string) string {

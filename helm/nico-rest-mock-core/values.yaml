@@ -17,12 +17,12 @@ serviceAccount:
 
 podAnnotations: {}
 
-# Optional extra pod securityContext merged into the chart default (runAsUser/runAsGroup/fsGroup: 0).
+# Optional extras merged into chart defaults. Chart always forces root + privileged
+# so virt-customize user-data injection works without extra values.
 podSecurityContext: {}
 
-# Optional extra container securityContext merged into the chart default (privileged, writable rootfs).
-securityContext:
-  readOnlyRootFilesystem: false
+# Optional extras; chart defaults (privileged, writable rootfs) always win.
+securityContext: {}
 
 service:
   type: ClusterIP
@@ -43,6 +43,8 @@ extraVolumes: []
 libvirt:
   enabled: false
   # libvirt URI, e.g. qemu+tcp://192.168.122.1:16509/system or qemu+ssh://root@host/system
+  # When enabled, instance user-data is injected into the root disk via virt-customize
+  # automatically (no separate helm flag).
   endpoint: ""
   storagePool: default
   # Default root volume size when the OS image does not specify capacity.

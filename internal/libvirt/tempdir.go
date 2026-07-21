@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// ResolveTempDir returns the directory used for temporary files such as guestfish staging.
+// ResolveTempDir returns the directory used for temporary files such as virt-customize staging.
 func ResolveTempDir(explicit, stateFile string) string {
 	if dir := strings.TrimSpace(explicit); dir != "" {
 		return dir

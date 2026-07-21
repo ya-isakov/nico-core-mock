@@ -25,22 +25,24 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "nico-rest-mock-core.serviceAccountName" . }}
       securityContext:
-        runAsUser: 0
-        runAsGroup: 0
-        fsGroup: 0
         {{- with .Values.podSecurityContext }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        # Required for virt-customize user-data injection (always on when provisioning).
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
       containers:
         - name: {{ include "nico-rest-mock-core.name" . }}
           securityContext:
+            {{- with .Values.securityContext }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            # Required for virt-customize user-data injection (always on when provisioning).
             runAsUser: 0
             runAsGroup: 0
             privileged: true
             allowPrivilegeEscalation: true
-            {{- with .Values.securityContext }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
             readOnlyRootFilesystem: false
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" | quote }}
@@ -92,8 +94,11 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
           env:
+            # Always set for virt-customize; no chart value required to enable injection.
             - name: LIBGUESTFS_BACKEND
               value: direct
+            - name: LIBGUESTFS_SKIP_OS_CHECK
+              value: "1"
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

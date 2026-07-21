@@ -31,9 +31,13 @@ RUN apt-get update \
         libguestfs-tools \
         qemu-system-x86 \
         linux-image-cloud-amd64 \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && command -v virt-customize \
+    && ls /boot/vmlinuz* >/dev/null \
+    && ls -d /lib/modules/*/ >/dev/null
 
 ENV LIBGUESTFS_BACKEND=direct
+ENV LIBGUESTFS_SKIP_OS_CHECK=1
 
 COPY --from=builder /nico-core-mock /nico-core-mock
 COPY nico-core-mock/helm/nico-rest-mock-core/rendered/machines.yaml /config/machines.yaml

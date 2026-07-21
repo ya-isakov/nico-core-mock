@@ -97,11 +97,20 @@ func TestPatchDomainBootDiskXMLStripsOSBoot(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	if err := requireDomainXMLRoot(updated); err != nil {
+		t.Fatal(err)
+	}
+	if !strings.HasPrefix(strings.TrimSpace(updated), "<domain") {
+		t.Fatalf("expected full domain document, got:\n%s", updated)
+	}
 	if strings.Contains(updated, `<boot dev=`) {
 		t.Fatalf("expected os/boot elements removed:\n%s", updated)
 	}
 	if !strings.Contains(updated, `<boot order='1'/>`) {
 		t.Fatalf("expected per-device boot order on root disk:\n%s", updated)
+	}
+	if !strings.Contains(updated, `<type arch='x86_64' machine='pc'>hvm</type>`) {
+		t.Fatalf("expected os/type preserved:\n%s", updated)
 	}
 }
 

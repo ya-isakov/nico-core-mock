@@ -8,3 +8,4 @@
 3. Edit mock hosts in Helm values key `inventory` (`helm/nico-rest-mock-core/values.yaml`).
 4. When `libvirt.enabled` is true, only machines whose `id` matches an existing libvirt domain are returned.
 5. Set `libvirt.volumeGiB` to change the default root disk size for provisioned instances (default: 20).
+6. User-data injection via virt-customize is always enabled during libvirt provisioning when the instance has user-data; no extra helm values are required.

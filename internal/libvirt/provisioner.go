@@ -154,7 +154,8 @@ func (p *Provisioner) ProvisionMachine(ctx context.Context, req ProvisionRequest
 	if strings.TrimSpace(req.UserData) != "" {
 		log.Info().
 			Str("machine_id", machineID).
-			Msg("injected nocloud seed into root disk image")
+			Str("path", "/etc/cloud/cloud.cfg.d/99-user-data.cfg").
+			Msg("virt-customize injected user-data into root disk image")
 	}
 
 	if err := startDomain(l, domain, machineID); err != nil {

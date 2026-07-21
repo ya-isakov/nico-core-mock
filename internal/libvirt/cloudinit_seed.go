@@ -1,22 +1,22 @@
 package libvirt
 
 import (
-	"bytes"
-	"errors"
 	"fmt"
 	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/rs/zerolog/log"
 )
 
 const (
-	cloudCfgDDir         = "/etc/cloud/cloud.cfg.d"
-	forgeDSListPath      = cloudCfgDDir + "/98-forge-dslist.cfg"
-	forgeUserDataPath    = cloudCfgDDir + "/99-user-data.cfg"
-	forgeDSListContent   = "datasource_list: [ NoCloud, None ]\n"
-	libguestfsBackend    = "direct"
+	cloudCfgDDir       = "/etc/cloud/cloud.cfg.d"
+	forgeDSListPath    = cloudCfgDDir + "/98-forge-dslist.cfg"
+	forgeUserDataPath  = cloudCfgDDir + "/99-user-data.cfg"
+	forgeDSListContent = "datasource_list: [ NoCloud, None ]\n"
+	libguestfsBackend  = "direct"
 )
 
 // NoCloudSeed holds cloud-init user-data written into the root disk image.
@@ -35,8 +35,8 @@ func BuildNoCloudSeed(userData, instanceID, instanceName string) (NoCloudSeed, e
 	return NoCloudSeed{UserData: userData}, nil
 }
 
-// InjectNoCloudSeed writes cloud-init config into a disk image, matching the
-// pre-a6448ebd infra-controller disk_imaging.sh add_cloud_init workflow.
+// InjectNoCloudSeed writes cloud-init config into a disk image using virt-customize,
+// matching the pre-a6448ebd infra-controller disk_imaging.sh add_cloud_init workflow.
 func InjectNoCloudSeed(imagePath, format string, seed NoCloudSeed) error {
 	tmpDir, err := os.MkdirTemp("", "nico-nocloud-*")
 	if err != nil {
@@ -52,33 +52,13 @@ func InjectNoCloudSeed(imagePath, format string, seed NoCloudSeed) error {
 	if err := requireContainerRoot(); err != nil {
 		return err
 	}
-
-	var errs []error
-
-	if _, lookErr := exec.LookPath("virt-customize"); lookErr == nil {
-		injectErr := injectNoCloudSeedVirtCustomize(imagePath, format, tmpDir, files)
-		if injectErr == nil {
-			return nil
-		}
-		if !isLibguestfsFallbackError(injectErr) {
-			errs = append(errs, fmt.Errorf("virt-customize: %w", injectErr))
-		}
+	if _, err := exec.LookPath("virt-customize"); err != nil {
+		return fmt.Errorf("virt-customize not found (install libguestfs-tools): %w", err)
 	}
-
-	if _, lookErr := exec.LookPath("guestfish"); lookErr == nil {
-		injectErr := injectNoCloudSeedGuestfish(imagePath, format, tmpDir, files)
-		if injectErr == nil {
-			return nil
-		}
-		if !isLibguestfsFallbackError(injectErr) {
-			errs = append(errs, fmt.Errorf("guestfish: %w", injectErr))
-		}
+	if err := injectNoCloudSeedVirtCustomize(imagePath, format, tmpDir, files); err != nil {
+		return fmt.Errorf("inject nocloud seed failed: %w", err)
 	}
-
-	if len(errs) > 0 {
-		return fmt.Errorf("inject nocloud seed failed: %w", errors.Join(errs...))
-	}
-	return fmt.Errorf("no tool available to inject nocloud seed (need libguestfs-tools)")
+	return nil
 }
 
 type seedFile struct {
@@ -105,75 +85,37 @@ func writeNoCloudSeedFiles(tmpDir string, seed NoCloudSeed) ([]seedFile, error) 
 func injectNoCloudSeedVirtCustomize(imagePath, format, workDir string, files []seedFile) error {
 	args := virtCustomizeArgs(imagePath, format, files)
 
+	log.Info().
+		Str("image", imagePath).
+		Str("format", format).
+		Int("files", len(files)).
+		Strs("args", args).
+		Msg("injecting user-data with virt-customize")
+
 	cmd := exec.Command("virt-customize", args...)
 	cmd.Env = libguestfsToolEnv(workDir)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		return fmt.Errorf("virt-customize inject nocloud seed: %w: %s", err, out)
+		return fmt.Errorf("virt-customize: %w: %s", err, out)
 	}
+
+	log.Info().
+		Str("image", imagePath).
+		Str("user_data_path", forgeUserDataPath).
+		Msg("virt-customize injected user-data into root disk image")
 	return nil
 }
 
 func virtCustomizeArgs(imagePath, format string, files []seedFile) []string {
-	args := make([]string, 0, 8+len(files))
+	args := make([]string, 0, 6+len(files)*2)
 	if format != "" {
 		args = append(args, "--format", format)
 	}
-	args = append(args, "-a", imagePath,
-		"--mkdir", cloudCfgDDir,
-	)
+	args = append(args, "-a", imagePath, "--mkdir", cloudCfgDDir)
 	for _, file := range files {
 		args = append(args, "--upload", file.localPath+":"+file.remotePath)
 	}
 	return args
-}
-
-func injectNoCloudSeedGuestfish(imagePath, format, workDir string, files []seedFile) error {
-	err := runGuestfish(imagePath, format, workDir, files, true)
-	if err != nil && strings.Contains(err.Error(), "unrecognized option") {
-		return runGuestfish(imagePath, format, workDir, files, false)
-	}
-	return err
-}
-
-func runGuestfish(imagePath, format, workDir string, files []seedFile, useBackendFlag bool) error {
-	var script bytes.Buffer
-	script.WriteString("run\n")
-	script.WriteString("mkdir-p " + cloudCfgDDir + "\n")
-	for _, file := range files {
-		fmt.Fprintf(&script, "upload %s %s\n", file.localPath, file.remotePath)
-	}
-
-	args := []string{"--rw", "-a", imagePath}
-	if useBackendFlag {
-		args = append([]string{"--backend", libguestfsBackend}, args...)
-	}
-	if format != "" {
-		args = append(args, "-f", format)
-	}
-	args = append(args, "-i")
-
-	cmd := exec.Command("guestfish", args...)
-	cmd.Stdin = &script
-	cmd.Env = libguestfsToolEnv(workDir)
-	out, err := cmd.CombinedOutput()
-	if err != nil {
-		return fmt.Errorf("guestfish inject nocloud seed: %w: %s", err, out)
-	}
-	return nil
-}
-
-func isLibguestfsFallbackError(err error) bool {
-	if err == nil {
-		return false
-	}
-	msg := err.Error()
-	return strings.Contains(msg, "supermin") ||
-		strings.Contains(msg, "unrecognized option '--backend'")
-}
-
-func isSuperminError(err error) bool {
-	return isLibguestfsFallbackError(err)
 }
 
 func libguestfsToolEnv(workDir string) []string {

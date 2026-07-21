@@ -61,3 +61,5 @@ libvirt:
   enabled: true
   endpoint: qemu+tcp://192.168.122.1:16509/system
 ```
+
+When libvirt provisioning runs with instance user-data, it is injected into the root disk with `virt-customize` automatically. No extra helm values are required for injection (the chart always runs privileged as root and sets `LIBGUESTFS_BACKEND=direct`).
