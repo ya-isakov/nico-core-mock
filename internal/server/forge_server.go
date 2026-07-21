@@ -93,6 +93,7 @@ type NICoServerImpl struct {
 	osi  map[string]*cwssaws.OsImage
 	oss  map[string]*cwssaws.OperatingSystem
 	it   map[string]*cwssaws.InstanceType
+	nsg  map[string]*cwssaws.NetworkSecurityGroup
 
 	// Per-org machine identity state.
 	identityState    map[string]*identityOrgState
@@ -222,6 +223,7 @@ func NewFromInventory(inv *config.Inventory, powerChecker libvirtfilter.PowerChe
 		osi:              make(map[string]*cwssaws.OsImage),
 		oss:              make(map[string]*cwssaws.OperatingSystem),
 		it:               make(map[string]*cwssaws.InstanceType),
+		nsg:              make(map[string]*cwssaws.NetworkSecurityGroup),
 		identityState:    make(map[string]*identityOrgState),
 		tokenDelegations: make(map[string]*cwssaws.TokenDelegationResponse),
 		powerChecker:     powerChecker,
@@ -1050,9 +1052,83 @@ func (f *NICoServerImpl) FindDpuExtensionServicesByIds(ctx context.Context, req 
 	return &cwssaws.DpuExtensionServiceList{Services: res}, nil
 }
 
+func (f *NICoServerImpl) CreateNetworkSecurityGroup(ctx context.Context, req *cwssaws.CreateNetworkSecurityGroupRequest) (*cwssaws.CreateNetworkSecurityGroupResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid request argument")
+	}
+
+	var nid string
+	switch {
+	case req.Id != nil && *req.Id != "":
+		nid = *req.Id
+	case f.nsg[DefaultNetworkSecurityGroupId] == nil:
+		nid = DefaultNetworkSecurityGroupId
+	default:
+		nid = uuid.NewString()
+	}
+
+	if _, exists := f.nsg[nid]; exists {
+		return nil, status.Errorf(codes.AlreadyExists, "NetworkSecurityGroup with ID %q already exists", nid)
+	}
+
+	n := &cwssaws.NetworkSecurityGroup{
+		Id:                   nid,
+		TenantOrganizationId: req.TenantOrganizationId,
+		Metadata:             req.Metadata,
+		Version:              "1",
+		Attributes:           req.NetworkSecurityGroupAttributes,
+	}
+	f.nsg[nid] = n
+
+	return &cwssaws.CreateNetworkSecurityGroupResponse{NetworkSecurityGroup: n}, nil
+}
+
+func (f *NICoServerImpl) UpdateNetworkSecurityGroup(ctx context.Context, req *cwssaws.UpdateNetworkSecurityGroupRequest) (*cwssaws.UpdateNetworkSecurityGroupResponse, error) {
+	if req == nil || req.Id == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid request argument")
+	}
+
+	n, ok := f.nsg[req.Id]
+	if !ok {
+		return nil, status.Errorf(codes.NotFound, "NetworkSecurityGroup with ID %q not found", req.Id)
+	}
+
+	if req.Metadata != nil {
+		n.Metadata = req.Metadata
+	}
+	if req.NetworkSecurityGroupAttributes != nil {
+		n.Attributes = req.NetworkSecurityGroupAttributes
+	}
+	// Bump version to signal an update happened.
+	n.Version = fmt.Sprintf("%d", time.Now().UnixNano())
+
+	return &cwssaws.UpdateNetworkSecurityGroupResponse{NetworkSecurityGroup: n}, nil
+}
+
+func (f *NICoServerImpl) DeleteNetworkSecurityGroup(ctx context.Context, req *cwssaws.DeleteNetworkSecurityGroupRequest) (*cwssaws.DeleteNetworkSecurityGroupResponse, error) {
+	if req == nil || req.Id == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid request argument")
+	}
+
+	if _, ok := f.nsg[req.Id]; !ok {
+		return nil, status.Errorf(codes.NotFound, "NetworkSecurityGroup with ID %q not found", req.Id)
+	}
+	delete(f.nsg, req.Id)
+
+	return &cwssaws.DeleteNetworkSecurityGroupResponse{}, nil
+}
+
 func (f *NICoServerImpl) FindNetworkSecurityGroupIds(ctx context.Context, req *cwssaws.FindNetworkSecurityGroupIdsRequest) (*cwssaws.FindNetworkSecurityGroupIdsResponse, error) {
+	ids := make([]string, 0, len(f.nsg)+1)
+	if _, ok := f.nsg[DefaultNetworkSecurityGroupId]; !ok {
+		ids = append(ids, DefaultNetworkSecurityGroupId)
+	}
+	for id := range f.nsg {
+		ids = append(ids, id)
+	}
+	sort.Strings(ids)
 	return &cwssaws.FindNetworkSecurityGroupIdsResponse{
-		NetworkSecurityGroupIds: []string{DefaultNetworkSecurityGroupId},
+		NetworkSecurityGroupIds: ids,
 	}, nil
 }
 
@@ -1062,7 +1138,14 @@ func (f *NICoServerImpl) FindNetworkSecurityGroupsByIds(ctx context.Context, req
 	}
 	ids := req.NetworkSecurityGroupIds
 	if len(ids) == 0 {
-		ids = []string{DefaultNetworkSecurityGroupId}
+		ids = make([]string, 0, len(f.nsg)+1)
+		if _, ok := f.nsg[DefaultNetworkSecurityGroupId]; !ok {
+			ids = append(ids, DefaultNetworkSecurityGroupId)
+		}
+		for id := range f.nsg {
+			ids = append(ids, id)
+		}
+		sort.Strings(ids)
 	}
 	tenantID := DefaultTenantOrganizationId
 	if req.TenantOrganizationId != nil && *req.TenantOrganizationId != "" {
@@ -1070,6 +1153,10 @@ func (f *NICoServerImpl) FindNetworkSecurityGroupsByIds(ctx context.Context, req
 	}
 	res := make([]*cwssaws.NetworkSecurityGroup, 0, len(ids))
 	for _, id := range ids {
+		if n, ok := f.nsg[id]; ok {
+			res = append(res, n)
+			continue
+		}
 		res = append(res, &cwssaws.NetworkSecurityGroup{
 			Id:                   id,
 			TenantOrganizationId: tenantID,
