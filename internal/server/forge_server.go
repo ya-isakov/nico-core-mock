@@ -1499,11 +1499,9 @@ func (f *NICoServerImpl) CreateTenantKeyset(c context.Context, req *cwssaws.Crea
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid request argument")
 	}
 
-	nid := DefaultTenantKeysetId
-	_, ok := f.tk[DefaultTenantKeysetId]
-	if ok {
-		// Default TenantKeyset already exists, create a new one with a different ID
-		nid = uuid.NewString()
+	nid := req.KeysetIdentifier.KeysetId
+	if _, ok := f.tk[nid]; ok {
+		return nil, status.Errorf(codes.AlreadyExists, "TenantKeyset with ID %q already exists", nid)
 	}
 
 	ntk := &cwssaws.TenantKeyset{
