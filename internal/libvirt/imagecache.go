@@ -11,10 +11,49 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/rs/zerolog/log"
 )
+
+// imageDownloadGroup deduplicates concurrent downloads of the same cache key so
+// each digest is fetched at most once in-process.
+var imageDownloadGroup imageFlightGroup
+
+type imageFlightGroup struct {
+	mu sync.Mutex
+	m  map[string]*imageFlightCall
+}
+
+type imageFlightCall struct {
+	wg  sync.WaitGroup
+	err error
+}
+
+func (g *imageFlightGroup) do(key string, fn func() error) error {
+	g.mu.Lock()
+	if g.m == nil {
+		g.m = make(map[string]*imageFlightCall)
+	}
+	if call, ok := g.m[key]; ok {
+		g.mu.Unlock()
+		call.wg.Wait()
+		return call.err
+	}
+	call := &imageFlightCall{}
+	call.wg.Add(1)
+	g.m[key] = call
+	g.mu.Unlock()
+
+	call.err = fn()
+
+	g.mu.Lock()
+	delete(g.m, key)
+	g.mu.Unlock()
+	call.wg.Done()
+	return call.err
+}
 
 func normalizeImageDigest(digest string) string {
 	digest = strings.TrimSpace(strings.ToLower(digest))
@@ -46,15 +85,37 @@ func fileSHA256Hex(filePath string) (string, error) {
 
 func openCachedOrDownloadImage(ctx context.Context, imageURL, digest, cacheDir string) (int64, io.ReadCloser, error) {
 	normalizedDigest := normalizeImageDigest(digest)
-	if cacheDir != "" && normalizedDigest != "" {
-		if size, reader, ok, err := tryOpenCachedImage(cacheDir, normalizedDigest, imageURL); err != nil {
-			return 0, nil, err
+	if cacheDir == "" || normalizedDigest == "" {
+		return openImageHTTP(ctx, imageURL)
+	}
+
+	if size, reader, ok, err := tryOpenCachedImage(cacheDir, normalizedDigest, imageURL); err != nil {
+		return 0, nil, err
+	} else if ok {
+		return size, reader, nil
+	}
+
+	cachePath := imageCachePath(cacheDir, normalizedDigest, imageURL)
+	if err := imageDownloadGroup.do(cachePath, func() error {
+		if _, reader, ok, err := tryOpenCachedImage(cacheDir, normalizedDigest, imageURL); err != nil {
+			return err
 		} else if ok {
-			return size, reader, nil
+			_ = reader.Close()
+			return nil
 		}
 		return downloadImageToCache(ctx, imageURL, normalizedDigest, cacheDir)
+	}); err != nil {
+		return 0, nil, err
 	}
-	return openImageHTTP(ctx, imageURL)
+
+	size, reader, ok, err := tryOpenCachedImage(cacheDir, normalizedDigest, imageURL)
+	if err != nil {
+		return 0, nil, err
+	}
+	if !ok {
+		return 0, nil, fmt.Errorf("cached image %q missing after download", cachePath)
+	}
+	return size, reader, nil
 }
 
 func tryOpenCachedImage(cacheDir, digest, imageURL string) (int64, io.ReadCloser, bool, error) {
@@ -97,40 +158,47 @@ func tryOpenCachedImage(cacheDir, digest, imageURL string) (int64, io.ReadCloser
 	return info.Size(), file, true, nil
 }
 
-func downloadImageToCache(ctx context.Context, imageURL, digest, cacheDir string) (int64, io.ReadCloser, error) {
+func downloadImageToCache(ctx context.Context, imageURL, digest, cacheDir string) error {
 	if err := os.MkdirAll(cacheDir, 0o755); err != nil {
-		return 0, nil, fmt.Errorf("create image cache dir %q: %w", cacheDir, err)
+		return fmt.Errorf("create image cache dir %q: %w", cacheDir, err)
 	}
 
 	cachePath := imageCachePath(cacheDir, digest, imageURL)
-	tempPath := cachePath + ".part"
-
-	file, err := os.Create(tempPath)
+	tempFile, err := os.CreateTemp(cacheDir, filepath.Base(cachePath)+".part.*")
 	if err != nil {
-		return 0, nil, fmt.Errorf("create temp cache file %q: %w", tempPath, err)
+		return fmt.Errorf("create temp cache file: %w", err)
 	}
+	tempPath := tempFile.Name()
 
 	hasher := sha256.New()
-	size, err := downloadImageToWriter(ctx, imageURL, io.MultiWriter(file, hasher))
-	closeErr := file.Close()
+	size, err := downloadImageToWriter(ctx, imageURL, io.MultiWriter(tempFile, hasher))
+	closeErr := tempFile.Close()
 	if err != nil {
 		_ = os.Remove(tempPath)
-		return 0, nil, err
+		return err
 	}
 	if closeErr != nil {
 		_ = os.Remove(tempPath)
-		return 0, nil, fmt.Errorf("close temp cache file %q: %w", tempPath, closeErr)
+		return fmt.Errorf("close temp cache file %q: %w", tempPath, closeErr)
 	}
 
 	gotDigest := hex.EncodeToString(hasher.Sum(nil))
 	if gotDigest != digest {
 		_ = os.Remove(tempPath)
-		return 0, nil, fmt.Errorf("downloaded image digest mismatch: got %s, want %s", gotDigest, digest)
+		return fmt.Errorf("downloaded image digest mismatch: got %s, want %s", gotDigest, digest)
 	}
 
 	if err := os.Rename(tempPath, cachePath); err != nil {
 		_ = os.Remove(tempPath)
-		return 0, nil, fmt.Errorf("finalize cached image %q: %w", cachePath, err)
+		// Another process may have finalized the same digest first.
+		if _, statErr := os.Stat(cachePath); statErr == nil {
+			log.Info().
+				Str("cache_path", cachePath).
+				Str("digest", digest).
+				Msg("os image already cached by another download")
+			return nil
+		}
+		return fmt.Errorf("finalize cached image %q: %w", cachePath, err)
 	}
 
 	log.Info().
@@ -140,11 +208,7 @@ func downloadImageToCache(ctx context.Context, imageURL, digest, cacheDir string
 		Str("url", imageURL).
 		Msg("cached os image")
 
-	opened, err := os.Open(cachePath)
-	if err != nil {
-		return 0, nil, fmt.Errorf("open cached image %q: %w", cachePath, err)
-	}
-	return size, opened, nil
+	return nil
 }
 
 func openImageHTTP(ctx context.Context, imageURL string) (int64, io.ReadCloser, error) {
