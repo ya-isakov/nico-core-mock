@@ -39,6 +39,12 @@ func (f *NICoServerImpl) applySnapshot(snap *statestore.Snapshot) {
 		}
 		f.vp[prefix.GetId().GetValue()] = prefix
 	}
+	for _, peering := range snap.VpcPeerings {
+		if peering.GetId() == nil || peering.GetId().GetValue() == "" {
+			continue
+		}
+		f.vpp[peering.GetId().GetValue()] = peering
+	}
 	for _, image := range snap.OsImages {
 		if image.GetAttributes() == nil || image.GetAttributes().GetId() == nil || image.GetAttributes().GetId().GetValue() == "" {
 			continue
@@ -67,6 +73,7 @@ func (f *NICoServerImpl) exportSnapshot() *statestore.Snapshot {
 		Instances:       mapValues(f.ins),
 		Machines:        mapValues(f.m),
 		VpcPrefixes:     mapValues(f.vp),
+		VpcPeerings:     mapValues(f.vpp),
 		OsImages:         mapValues(f.osi),
 		OperatingSystems: mapValues(f.oss),
 		InstanceTypes:    mapValues(f.it),

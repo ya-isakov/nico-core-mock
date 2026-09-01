@@ -90,6 +90,7 @@ type NICoServerImpl struct {
 	er   map[string]*cwssaws.ExpectedRack
 	tt   map[string]*cwssaws.Tenant
 	vp   map[string]*cwssaws.VpcPrefix
+	vpp  map[string]*cwssaws.VpcPeering
 	osi  map[string]*cwssaws.OsImage
 	oss  map[string]*cwssaws.OperatingSystem
 	it   map[string]*cwssaws.InstanceType
@@ -220,6 +221,7 @@ func NewFromInventory(inv *config.Inventory, powerChecker libvirtfilter.PowerChe
 		er:               make(map[string]*cwssaws.ExpectedRack),
 		tt:               make(map[string]*cwssaws.Tenant),
 		vp:               make(map[string]*cwssaws.VpcPrefix),
+		vpp:              make(map[string]*cwssaws.VpcPeering),
 		osi:              make(map[string]*cwssaws.OsImage),
 		oss:              make(map[string]*cwssaws.OperatingSystem),
 		it:               make(map[string]*cwssaws.InstanceType),
@@ -975,11 +977,12 @@ func (f *NICoServerImpl) UpdateTenant(ctx context.Context, req *cwssaws.UpdateTe
 	return &cwssaws.UpdateTenantResponse{Tenant: t}, nil
 }
 
-// The Find{Sku,VpcPeering,DpuExtensionService,NetworkSecurityGroup}Ids /
-// Find*ByIds pairs back the corresponding inventory Discover workflows.
-// We synthesize a small set of plausible fake entities so downstream Cloud
-// workflows see a non-empty inventory page instead of hitting
-// "no fallback find function defined" on the Unimplemented default.
+// The Find{Sku,DpuExtensionService}Ids / Find*ByIds pairs back the
+// corresponding inventory Discover workflows. We synthesize a small set of
+// plausible fake entities so downstream Cloud workflows see a non-empty
+// inventory page instead of hitting "no fallback find function defined" on the
+// Unimplemented default. VpcPeering, in contrast, is backed by real mock state
+// below, so its inventory reflects exactly what Cloud created.
 
 func (f *NICoServerImpl) GetAllSkuIds(ctx context.Context, req *emptypb.Empty) (*cwssaws.SkuIdList, error) {
 	return &cwssaws.SkuIdList{Ids: []string{DefaultSkuId}}, nil
@@ -1015,27 +1018,95 @@ func (f *NICoServerImpl) FindSkusByIds(ctx context.Context, req *cwssaws.SkusByI
 	return &cwssaws.SkuList{Skus: res}, nil
 }
 
+// CreateVpcPeering implements interface NICoServer. Cloud always supplies the
+// peering ID (the site-workflow activity rejects a request without one), so the
+// generated fallbacks below only matter for hand-crafted gRPC calls.
+func (f *NICoServerImpl) CreateVpcPeering(ctx context.Context, req *cwssaws.VpcPeeringCreationRequest) (*cwssaws.VpcPeering, error) {
+	if req == nil || req.VpcId == nil || req.VpcId.Value == "" || req.PeerVpcId == nil || req.PeerVpcId.Value == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid request argument")
+	}
+
+	var nid string
+	switch {
+	case req.Id != nil && req.Id.Value != "":
+		nid = req.Id.Value
+	case f.vpp[DefaultVpcPeeringId] == nil:
+		nid = DefaultVpcPeeringId
+	default:
+		nid = uuid.NewString()
+	}
+	if _, exists := f.vpp[nid]; exists {
+		return nil, status.Errorf(codes.AlreadyExists, "VpcPeering with ID %q already exists", nid)
+	}
+
+	// Reject a duplicate pair in either direction, mirroring what a real
+	// fabric can express: two VPCs are either peered or they are not.
+	for _, p := range f.vpp {
+		if peeringMatchesPair(p, req.VpcId.Value, req.PeerVpcId.Value) {
+			return nil, status.Errorf(codes.AlreadyExists,
+				"VpcPeering between VPCs %q and %q already exists with ID %q",
+				req.VpcId.Value, req.PeerVpcId.Value, p.GetId().GetValue())
+		}
+	}
+
+	p := &cwssaws.VpcPeering{
+		Id:        &cwssaws.VpcPeeringId{Value: nid},
+		VpcId:     &cwssaws.VpcId{Value: req.VpcId.Value},
+		PeerVpcId: &cwssaws.VpcId{Value: req.PeerVpcId.Value},
+	}
+	f.vpp[nid] = p
+	return p, nil
+}
+
+// DeleteVpcPeering implements interface NICoServer
+func (f *NICoServerImpl) DeleteVpcPeering(ctx context.Context, req *cwssaws.VpcPeeringDeletionRequest) (*cwssaws.VpcPeeringDeletionResult, error) {
+	if req == nil || req.Id == nil || req.Id.Value == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid request argument")
+	}
+	if _, ok := f.vpp[req.Id.Value]; !ok {
+		return nil, status.Errorf(codes.NotFound, "VpcPeering with ID %q not found", req.Id.Value)
+	}
+	delete(f.vpp, req.Id.Value)
+	return &cwssaws.VpcPeeringDeletionResult{}, nil
+}
+
+func peeringMatchesPair(p *cwssaws.VpcPeering, vpcID, peerVpcID string) bool {
+	a, b := p.GetVpcId().GetValue(), p.GetPeerVpcId().GetValue()
+	return (a == vpcID && b == peerVpcID) || (a == peerVpcID && b == vpcID)
+}
+
 func (f *NICoServerImpl) FindVpcPeeringIds(ctx context.Context, req *cwssaws.VpcPeeringSearchFilter) (*cwssaws.VpcPeeringIdList, error) {
-	return &cwssaws.VpcPeeringIdList{
-		VpcPeeringIds: []*cwssaws.VpcPeeringId{{Value: DefaultVpcPeeringId}},
-	}, nil
+	filterVpc := req.GetVpcId().GetValue()
+	ids := make([]*cwssaws.VpcPeeringId, 0, len(f.vpp))
+	for id, p := range f.vpp {
+		// The filter names one side of the pair; a peering is visible from
+		// either VPC, so match both fields.
+		if filterVpc != "" && p.GetVpcId().GetValue() != filterVpc && p.GetPeerVpcId().GetValue() != filterVpc {
+			continue
+		}
+		ids = append(ids, &cwssaws.VpcPeeringId{Value: id})
+	}
+	sort.Slice(ids, func(i, j int) bool { return ids[i].Value < ids[j].Value })
+	return &cwssaws.VpcPeeringIdList{VpcPeeringIds: ids}, nil
 }
 
 func (f *NICoServerImpl) FindVpcPeeringsByIds(ctx context.Context, req *cwssaws.VpcPeeringsByIdsRequest) (*cwssaws.VpcPeeringList, error) {
 	if req == nil {
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid request argument")
 	}
-	ids := req.VpcPeeringIds
-	if len(ids) == 0 {
-		ids = []*cwssaws.VpcPeeringId{{Value: DefaultVpcPeeringId}}
+	if len(req.VpcPeeringIds) == 0 {
+		res := make([]*cwssaws.VpcPeering, 0, len(f.vpp))
+		for _, p := range f.vpp {
+			res = append(res, p)
+		}
+		sort.Slice(res, func(i, j int) bool { return res[i].GetId().GetValue() < res[j].GetId().GetValue() })
+		return &cwssaws.VpcPeeringList{VpcPeerings: res}, nil
 	}
-	res := make([]*cwssaws.VpcPeering, 0, len(ids))
-	for _, id := range ids {
-		res = append(res, &cwssaws.VpcPeering{
-			Id:        id,
-			VpcId:     &cwssaws.VpcId{Value: DefaultVpcId},
-			PeerVpcId: &cwssaws.VpcId{Value: DefaultPeerVpcId},
-		})
+	res := make([]*cwssaws.VpcPeering, 0, len(req.VpcPeeringIds))
+	for _, id := range req.VpcPeeringIds {
+		if p, ok := f.vpp[id.GetValue()]; ok {
+			res = append(res, p)
+		}
 	}
 	return &cwssaws.VpcPeeringList{VpcPeerings: res}, nil
 }

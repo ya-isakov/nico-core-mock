@@ -127,3 +127,85 @@ func TestGetAllExpectedMachinesLinked_MergesSeedAndDynamic(t *testing.T) {
 		t.Errorf("dynamic em-dyn = %q, want %q (linked by MAC)", got["em-dyn"], "machine-1")
 	}
 }
+
+// CreateVpcPeering must persist the pair Cloud asked for under Cloud's own ID,
+// so the peering that inventory discovery reports back is the same object.
+func TestVpcPeeringLifecycle(t *testing.T) {
+	t.Parallel()
+
+	const (
+		peeringID = "10f31516-cf0c-4048-97b2-129d8f8f45db"
+		vpcA      = "63b513fa-e8d9-43f0-adfa-673f10194c97"
+		vpcB      = "07fa3ea1-5795-4156-bd02-090406006e13"
+	)
+
+	srv := &NICoServerImpl{vpp: map[string]*cwssaws.VpcPeering{}}
+	ctx := context.Background()
+	req := &cwssaws.VpcPeeringCreationRequest{
+		Id:        &cwssaws.VpcPeeringId{Value: peeringID},
+		VpcId:     &cwssaws.VpcId{Value: vpcA},
+		PeerVpcId: &cwssaws.VpcId{Value: vpcB},
+	}
+
+	p, err := srv.CreateVpcPeering(ctx, req)
+	if err != nil {
+		t.Fatalf("CreateVpcPeering() error = %v", err)
+	}
+	if p.GetId().GetValue() != peeringID {
+		t.Errorf("peering ID = %q, want %q", p.GetId().GetValue(), peeringID)
+	}
+	if p.GetVpcId().GetValue() != vpcA || p.GetPeerVpcId().GetValue() != vpcB {
+		t.Errorf("peering pair = (%q, %q), want (%q, %q)",
+			p.GetVpcId().GetValue(), p.GetPeerVpcId().GetValue(), vpcA, vpcB)
+	}
+
+	// The same pair in reverse order is the same peering, not a second one.
+	if _, err := srv.CreateVpcPeering(ctx, &cwssaws.VpcPeeringCreationRequest{
+		Id:        &cwssaws.VpcPeeringId{Value: "other-id"},
+		VpcId:     &cwssaws.VpcId{Value: vpcB},
+		PeerVpcId: &cwssaws.VpcId{Value: vpcA},
+	}); err == nil {
+		t.Error("CreateVpcPeering() with reversed pair succeeded, want AlreadyExists")
+	}
+
+	// Discovery must see it from either side of the pair, and only from those.
+	for _, tc := range []struct {
+		filter string
+		want   int
+	}{{vpcA, 1}, {vpcB, 1}, {"", 1}, {"unrelated-vpc", 0}} {
+		f := &cwssaws.VpcPeeringSearchFilter{}
+		if tc.filter != "" {
+			f.VpcId = &cwssaws.VpcId{Value: tc.filter}
+		}
+		ids, err := srv.FindVpcPeeringIds(ctx, f)
+		if err != nil {
+			t.Fatalf("FindVpcPeeringIds(%q) error = %v", tc.filter, err)
+		}
+		if got := len(ids.GetVpcPeeringIds()); got != tc.want {
+			t.Errorf("FindVpcPeeringIds(%q) returned %d ids, want %d", tc.filter, got, tc.want)
+		}
+	}
+
+	list, err := srv.FindVpcPeeringsByIds(ctx, &cwssaws.VpcPeeringsByIdsRequest{
+		VpcPeeringIds: []*cwssaws.VpcPeeringId{{Value: peeringID}},
+	})
+	if err != nil {
+		t.Fatalf("FindVpcPeeringsByIds() error = %v", err)
+	}
+	if len(list.GetVpcPeerings()) != 1 {
+		t.Fatalf("FindVpcPeeringsByIds() returned %d peerings, want 1", len(list.GetVpcPeerings()))
+	}
+
+	if _, err := srv.DeleteVpcPeering(ctx, &cwssaws.VpcPeeringDeletionRequest{
+		Id: &cwssaws.VpcPeeringId{Value: peeringID},
+	}); err != nil {
+		t.Fatalf("DeleteVpcPeering() error = %v", err)
+	}
+	ids, err := srv.FindVpcPeeringIds(ctx, &cwssaws.VpcPeeringSearchFilter{})
+	if err != nil {
+		t.Fatalf("FindVpcPeeringIds() after delete error = %v", err)
+	}
+	if len(ids.GetVpcPeeringIds()) != 0 {
+		t.Errorf("FindVpcPeeringIds() after delete returned %d ids, want 0", len(ids.GetVpcPeeringIds()))
+	}
+}
