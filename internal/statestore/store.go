@@ -25,6 +25,7 @@ type Snapshot struct {
 	Instances       []*cwssaws.Instance         `json:"instances,omitempty"`
 	Machines        []*cwssaws.Machine          `json:"machines,omitempty"`
 	VpcPrefixes     []*cwssaws.VpcPrefix        `json:"vpc_prefixes,omitempty"`
+	VpcPeerings     []*cwssaws.VpcPeering       `json:"vpc_peerings,omitempty"`
 	OsImages          []*cwssaws.OsImage          `json:"os_images,omitempty"`
 	OperatingSystems  []*cwssaws.OperatingSystem  `json:"operating_systems,omitempty"`
 	InstanceTypes     []*cwssaws.InstanceType     `json:"instance_types,omitempty"`
@@ -37,6 +38,7 @@ type snapshotWire struct {
 	Instances       []json.RawMessage `json:"instances,omitempty"`
 	Machines        []json.RawMessage `json:"machines,omitempty"`
 	VpcPrefixes     []json.RawMessage `json:"vpc_prefixes,omitempty"`
+	VpcPeerings     []json.RawMessage `json:"vpc_peerings,omitempty"`
 	OsImages          []json.RawMessage `json:"os_images,omitempty"`
 	OperatingSystems  []json.RawMessage `json:"operating_systems,omitempty"`
 	InstanceTypes     []json.RawMessage `json:"instance_types,omitempty"`
@@ -102,6 +104,10 @@ func snapshotToWire(snap *Snapshot) (*snapshotWire, error) {
 	if err != nil {
 		return nil, fmt.Errorf("marshal vpc_prefixes: %w", err)
 	}
+	vpcPeerings, err := marshalProtoSlice(snap.VpcPeerings)
+	if err != nil {
+		return nil, fmt.Errorf("marshal vpc_peerings: %w", err)
+	}
 	osImages, err := marshalProtoSlice(snap.OsImages)
 	if err != nil {
 		return nil, fmt.Errorf("marshal os_images: %w", err)
@@ -122,6 +128,7 @@ func snapshotToWire(snap *Snapshot) (*snapshotWire, error) {
 		Instances:        instances,
 		Machines:         machines,
 		VpcPrefixes:      vpcPrefixes,
+		VpcPeerings:      vpcPeerings,
 		OsImages:           osImages,
 		OperatingSystems: operatingSystems,
 		InstanceTypes:      instanceTypes,
@@ -149,6 +156,10 @@ func wireToSnapshot(wire *snapshotWire) (*Snapshot, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal vpc_prefixes: %w", err)
 	}
+	vpcPeerings, err := unmarshalProtoSlice(wire.VpcPeerings, func() *cwssaws.VpcPeering { return &cwssaws.VpcPeering{} })
+	if err != nil {
+		return nil, fmt.Errorf("unmarshal vpc_peerings: %w", err)
+	}
 	osImages, err := unmarshalProtoSlice(wire.OsImages, func() *cwssaws.OsImage { return &cwssaws.OsImage{} })
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal os_images: %w", err)
@@ -169,6 +180,7 @@ func wireToSnapshot(wire *snapshotWire) (*Snapshot, error) {
 		Instances:        instances,
 		Machines:         machines,
 		VpcPrefixes:      vpcPrefixes,
+		VpcPeerings:      vpcPeerings,
 		OsImages:           osImages,
 		OperatingSystems: operatingSystems,
 		InstanceTypes:      instanceTypes,
