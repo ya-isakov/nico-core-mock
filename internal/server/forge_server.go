@@ -672,6 +672,41 @@ func (f *NICoServerImpl) ReleaseInstance(c context.Context, req *cwssaws.Instanc
 	return nil, status.Errorf(codes.NotFound, "Instance with ID %q not found", req.Id.Value)
 }
 
+// UpdateInstanceConfig implements interface NICoServer.
+//
+// Cloud always sends a full config, so the config is replaced wholesale rather
+// than merged — including a nil NetworkSecurityGroupId, which is how a detach is
+// expressed on the wire. The network config is the one exception: real Core
+// queues network changes and keeps reporting the old config until they land, and
+// preserving it here also keeps Config.Network.Interfaces positionally aligned
+// with the Status.Network.Interfaces that AllocateInstance generated.
+func (f *NICoServerImpl) UpdateInstanceConfig(ctx context.Context, req *cwssaws.InstanceConfigUpdateRequest) (*cwssaws.Instance, error) {
+	if req == nil || req.InstanceId == nil || req.InstanceId.Value == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid request argument")
+	}
+
+	ins, ok := f.ins[req.InstanceId.Value]
+	if !ok {
+		return nil, status.Errorf(codes.NotFound, "Instance with ID %q not found", req.InstanceId.Value)
+	}
+
+	if req.Config != nil {
+		network := ins.Config.GetNetwork()
+		ins.Config = req.Config
+		ins.Config.Network = network
+	}
+	if req.Metadata != nil {
+		ins.Metadata = req.Metadata
+	}
+	// Bump version to signal an update happened. Callers only ever compare this
+	// for equality (real Core matches it against if_version_match), so an opaque
+	// token is enough — and unlike a timestamp it still differs for two updates
+	// that land inside the same clock tick.
+	ins.ConfigVersion = uuid.NewString()
+
+	return ins, nil
+}
+
 // FindInstances implements interface NICoServer
 func (f *NICoServerImpl) FindInstanceIds(ctx context.Context, req *cwssaws.InstanceSearchFilter) (*cwssaws.InstanceIdList, error) {
 	if req == nil {

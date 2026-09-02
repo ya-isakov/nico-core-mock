@@ -5,6 +5,8 @@ import (
 	"testing"
 
 	cwssaws "github.com/NVIDIA/infra-controller/rest-api/workflow-schema/schema/site-agent/workflows/v1"
+	"github.com/gogo/status"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	libvirtfilter "github.com/jumpojoy/nico-core-mock/internal/libvirt"
@@ -207,5 +209,107 @@ func TestVpcPeeringLifecycle(t *testing.T) {
 	}
 	if len(ids.GetVpcPeeringIds()) != 0 {
 		t.Errorf("FindVpcPeeringIds() after delete returned %d ids, want 0", len(ids.GetVpcPeeringIds()))
+	}
+}
+
+// UpdateInstanceConfig must apply the config Cloud sends — attaching and, with a
+// nil NetworkSecurityGroupId, detaching the security group — while keeping the
+// network config that AllocateInstance resolved, since the instance's interface
+// statuses are aligned with it.
+func TestUpdateInstanceConfig(t *testing.T) {
+	t.Parallel()
+
+	const (
+		instanceID = "1face5fd-4867-4551-9c02-ea082e2e8a85"
+		nsgID      = "b45da26b-277f-400c-be39-2e939f3c69aa"
+	)
+
+	allocatedNetwork := &cwssaws.InstanceNetworkConfig{
+		Interfaces: []*cwssaws.InstanceInterfaceConfig{{IpAddress: getStrPtr("10.0.1.5")}},
+	}
+	srv := &NICoServerImpl{ins: map[string]*cwssaws.Instance{
+		instanceID: {
+			Id:     &cwssaws.InstanceId{Value: instanceID},
+			Config: &cwssaws.InstanceConfig{Network: allocatedNetwork},
+		},
+	}}
+	ctx := context.Background()
+
+	// Attach: Cloud sends the whole config with the NSG set.
+	ins, err := srv.UpdateInstanceConfig(ctx, &cwssaws.InstanceConfigUpdateRequest{
+		InstanceId: &cwssaws.InstanceId{Value: instanceID},
+		Metadata:   &cwssaws.Metadata{Name: "tenant-a-cluster-default-md-wkb6f-s228w"},
+		Config: &cwssaws.InstanceConfig{
+			NetworkSecurityGroupId: getStrPtr(nsgID),
+			Tenant:                 &cwssaws.TenantConfig{TenantOrganizationId: DefaultTenantOrganizationId},
+		},
+	})
+	if err != nil {
+		t.Fatalf("UpdateInstanceConfig() attach error = %v", err)
+	}
+	if got := ins.GetConfig().GetNetworkSecurityGroupId(); got != nsgID {
+		t.Errorf("attached NSG = %q, want %q", got, nsgID)
+	}
+	if got := ins.GetMetadata().GetName(); got != "tenant-a-cluster-default-md-wkb6f-s228w" {
+		t.Errorf("metadata name = %q, want the name Cloud sent", got)
+	}
+	// The config Cloud sends carries no resolved interfaces, so the ones from
+	// allocation must survive — Status.Network.Interfaces still describes them.
+	if ins.GetConfig().GetNetwork() != allocatedNetwork {
+		t.Errorf("network config = %v, want the config from allocation", ins.GetConfig().GetNetwork())
+	}
+	attachedVersion := ins.GetConfigVersion()
+	if attachedVersion == "" {
+		t.Error("ConfigVersion is empty, want a version bump")
+	}
+
+	// Detach: an absent NetworkSecurityGroupId clears the group.
+	ins, err = srv.UpdateInstanceConfig(ctx, &cwssaws.InstanceConfigUpdateRequest{
+		InstanceId: &cwssaws.InstanceId{Value: instanceID},
+		Config:     &cwssaws.InstanceConfig{Tenant: &cwssaws.TenantConfig{TenantOrganizationId: DefaultTenantOrganizationId}},
+	})
+	if err != nil {
+		t.Fatalf("UpdateInstanceConfig() detach error = %v", err)
+	}
+	if ins.GetConfig().NetworkSecurityGroupId != nil {
+		t.Errorf("NSG = %q after detach, want it cleared", ins.GetConfig().GetNetworkSecurityGroupId())
+	}
+	if ins.GetConfigVersion() == attachedVersion {
+		t.Errorf("ConfigVersion = %q unchanged across updates, want a bump", ins.GetConfigVersion())
+	}
+	// Metadata is left alone when the request omits it.
+	if got := ins.GetMetadata().GetName(); got != "tenant-a-cluster-default-md-wkb6f-s228w" {
+		t.Errorf("metadata name = %q after an update without metadata, want it preserved", got)
+	}
+
+	// The update must be visible to inventory discovery, not just to the caller.
+	list, err := srv.FindInstancesByIds(ctx, &cwssaws.InstancesByIdsRequest{
+		InstanceIds: []*cwssaws.InstanceId{{Value: instanceID}},
+	})
+	if err != nil {
+		t.Fatalf("FindInstancesByIds() error = %v", err)
+	}
+	if len(list.GetInstances()) != 1 {
+		t.Fatalf("FindInstancesByIds() returned %d instances, want 1", len(list.GetInstances()))
+	}
+	if list.GetInstances()[0].GetConfig().NetworkSecurityGroupId != nil {
+		t.Error("FindInstancesByIds() still reports an NSG, want the detach to have stuck")
+	}
+
+	for _, tc := range []struct {
+		name string
+		req  *cwssaws.InstanceConfigUpdateRequest
+		want codes.Code
+	}{
+		{"nil request", nil, codes.InvalidArgument},
+		{"no instance ID", &cwssaws.InstanceConfigUpdateRequest{}, codes.InvalidArgument},
+		{"empty instance ID", &cwssaws.InstanceConfigUpdateRequest{InstanceId: &cwssaws.InstanceId{}}, codes.InvalidArgument},
+		{"unknown instance", &cwssaws.InstanceConfigUpdateRequest{
+			InstanceId: &cwssaws.InstanceId{Value: "5b1f4f8e-0000-4000-8000-000000000000"},
+		}, codes.NotFound},
+	} {
+		if _, err := srv.UpdateInstanceConfig(ctx, tc.req); status.Code(err) != tc.want {
+			t.Errorf("UpdateInstanceConfig(%s) code = %v, want %v", tc.name, status.Code(err), tc.want)
+		}
 	}
 }
