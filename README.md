@@ -38,19 +38,22 @@ The gRPC server listens on port `11079`. Port-forward to reach it from the host:
 kubectl port-forward -n nico-rest svc/nico-rest-mock-core 11079:11079
 ```
 
-Mock hosts (machines + discovery metadata) are defined in `helm/nico-rest-mock-core/values.yaml` under the `inventory` key. The chart renders that into a ConfigMap at deploy time.
+Mock hosts (machines + discovery metadata) are defined statically in
+`helm/nico-rest-mock-core/values.yaml` under the `inventory` key. The chart
+copies that into a ConfigMap at deploy time. Lab installs may override
+`inventory` with a Helm `-f` values file (for example from ufo-simulator).
 
-To run locally without Kubernetes:
+To run locally without Kubernetes (same file the chart uses):
 
 ```bash
-go run ./cmd/nico-core-mock --config helm/nico-rest-mock-core/rendered/machines.yaml
+go run ./cmd/nico-core-mock --config helm/nico-rest-mock-core/values.yaml
 ```
 
 When libvirt filtering is enabled, only inventory machines whose `id` matches an existing libvirt domain (by domain name or UUID) are returned by `FindMachineIds` and `FindMachinesByIds`:
 
 ```bash
 go run ./cmd/nico-core-mock \
-  --config helm/nico-rest-mock-core/rendered/machines.yaml \
+  --config helm/nico-rest-mock-core/values.yaml \
   --libvirt-endpoint=qemu+tcp://192.168.122.1:16509/system
 ```
 

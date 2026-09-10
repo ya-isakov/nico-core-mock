@@ -60,1360 +60,1840 @@ persistence:
   imageCacheDir: /data/os-image-cache
   tempDir: /data/tmp
 inventory:
-    machines:
-        - id: 00000000-0000-4000-8000-000000000000
-          state: Ready
-          interfaces:
-            - hostname: mock-host-0.nico.nvidia.com
-              mac_address: 58:a2:e1:5b:d1:b0
-              addresses:
-                - 10.10.0.10
-              segment_id: 00000000-0000-4000-9000-000000000000
-              primary_interface: true
-          discovery_info:
-            blockDevices:
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201196
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201197
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201198
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201199
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019128
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019130
-                - deviceType: disk
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64FNN0X034201
-            cpuInfo:
-                - cores: 16
-                  model: AMD EPYC 9115 16-Core Processor
-                  sockets: 1
-                  threads: 16
-                  vendor: AuthenticAMD
-            dmiData:
-                biosDate: 04/01/2026
-                biosVersion: R23_F20
-                boardName: MZG3-GU0-000
-                boardSerial: PK1N6300085
-                boardVersion: "03000300"
-                chassisSerial: 2451R26302R1.0U1057
-                productName: R263-ZG0-AAL2-000
-                productSerial: DPG5NS621A0000
-                sysVendor: Giga Computing
-            gpus:
-                - driverVersion: 580.126.16
-                  frequency: 930 MHz
-                  inforomVersion: 1001.0205.00.02
-                  name: NVIDIA A30
-                  pciBusId: 00000000:C1:00.0
-                  serial: "1651922012475"
-                  totalMemory: 24576 MiB
-                  vbiosVersion: 92.00.66.00.04
-            infinibandInterfaces:
-                - guid: "0000000000000001"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
-                    slot: 0000:e1:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000002"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
-                    slot: 0000:e1:00.1
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000003"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
-                    slot: 0000:e2:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000004"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
-                    slot: 0000:e2:00.1
-                    vendor: Mellanox Technologies
-            machineArch: X86_64
-            machineType: x86_64
-            memoryDevices:
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-            networkInterfaces:
-                - macAddress: 58:A2:E1:5B:D1:B0
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/1
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:00"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
-                    slot: 0000:a3:00.0
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/12
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:01"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
-                    slot: 0000:a3:00.1
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/1
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:02"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
-                    slot: 0000:a3:00.2
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/12
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:03"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
-                    slot: 0000:a3:00.3
-                    vendor: Intel Corporation
-            nvmeDevices:
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201196
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201197
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201198
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201199
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019128
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019130
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  serial: S64FNN0X034201
-          machine_capabilities:
-            - type: CPU
-              name: AMD EPYC 9115 16-Core Processor
-              vendor: AuthenticAMD
-              count: 1
-            - type: DPU
-              name: DPU
-              count: 1
-            - type: Network
-              name: I350 Gigabit Network Connection
-              vendor: Intel Corporation
-              count: 2
-            - type: Network
-              name: MT43244 BlueField-3 integrated ConnectX-7 network controller
-              vendor: Mellanox Technologies
-              count: 1
-              device_type: DPU
-            - type: Storage
-              name: SAMSUNG MZQL21T9HCJR-00A07
-              count: 4
-            - type: GPU
-              name: NVIDIA A30
-              count: 1
-              frequency: 930 MHz
-              capacity: 24576 MiB
-              device_type: NVLink
-            - type: Memory
-              name: DDR5
-              count: 1
-              capacity: 262144 MB
-            - type: InfiniBand
-              name: MT28800 Family [ConnectX-5 Ex]
-              vendor: Mellanox Technologies
-              count: 4
-            - type: Storage
-              name: SAMSUNG MZQL23T8HCLS-00A07
-              count: 8
-            - type: Storage
-              name: SAMSUNG MZQL2960HCJR-00A07
-              count: 2
-        - id: 00000000-0000-4000-8000-000000000001
-          state: Ready
-          interfaces:
-            - hostname: mock-host-1.nico.nvidia.com
-              mac_address: 58:a2:e1:5b:d1:b1
-              addresses:
-                - 10.10.0.11
-              segment_id: 00000000-0000-4000-9000-000000000000
-              primary_interface: true
-          discovery_info:
-            blockDevices:
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201197
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201198
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201199
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201200
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019129
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019131
-                - deviceType: disk
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64FNN0X034202
-            cpuInfo:
-                - cores: 16
-                  model: AMD EPYC 9115 16-Core Processor
-                  sockets: 1
-                  threads: 16
-                  vendor: AuthenticAMD
-            dmiData:
-                biosDate: 04/01/2026
-                biosVersion: R23_F20
-                boardName: MZG3-GU0-001
-                boardSerial: PK1N6300086
-                boardVersion: "03000301"
-                chassisSerial: 2451R26302R1.0U1058
-                productName: R263-ZG0-AAL2-001
-                productSerial: DPG5NS621A0001
-                sysVendor: Giga Computing
-            gpus:
-                - driverVersion: 580.126.16
-                  frequency: 930 MHz
-                  inforomVersion: 1001.0205.00.02
-                  name: NVIDIA A30
-                  pciBusId: 00000000:C1:00.0
-                  serial: "1651922012476"
-                  totalMemory: 24576 MiB
-                  vbiosVersion: 92.00.66.00.04
-            infinibandInterfaces:
-                - guid: "0000000000000005"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
-                    slot: 0000:e1:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000006"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
-                    slot: 0000:e1:00.1
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000007"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
-                    slot: 0000:e2:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000008"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
-                    slot: 0000:e2:00.1
-                    vendor: Mellanox Technologies
-            machineArch: X86_64
-            machineType: x86_64
-            memoryDevices:
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-            networkInterfaces:
-                - macAddress: 58:A2:E1:5B:D1:B1
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/2
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:04"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
-                    slot: 0000:a3:00.0
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/13
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:05"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
-                    slot: 0000:a3:00.1
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/2
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:06"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
-                    slot: 0000:a3:00.2
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/13
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:07"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
-                    slot: 0000:a3:00.3
-                    vendor: Intel Corporation
-            nvmeDevices:
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201197
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201198
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201199
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201200
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019129
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019131
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  serial: S64FNN0X034202
-          machine_capabilities:
-            - type: CPU
-              name: AMD EPYC 9115 16-Core Processor
-              vendor: AuthenticAMD
-              count: 1
-            - type: DPU
-              name: DPU
-              count: 1
-            - type: Network
-              name: I350 Gigabit Network Connection
-              vendor: Intel Corporation
-              count: 2
-            - type: Network
-              name: MT43244 BlueField-3 integrated ConnectX-7 network controller
-              vendor: Mellanox Technologies
-              count: 1
-              device_type: DPU
-            - type: Storage
-              name: SAMSUNG MZQL21T9HCJR-00A07
-              count: 4
-            - type: GPU
-              name: NVIDIA A30
-              count: 1
-              frequency: 930 MHz
-              capacity: 24576 MiB
-              device_type: NVLink
-            - type: Memory
-              name: DDR5
-              count: 1
-              capacity: 262144 MB
-            - type: InfiniBand
-              name: MT28800 Family [ConnectX-5 Ex]
-              vendor: Mellanox Technologies
-              count: 4
-            - type: Storage
-              name: SAMSUNG MZQL23T8HCLS-00A07
-              count: 8
-            - type: Storage
-              name: SAMSUNG MZQL2960HCJR-00A07
-              count: 2
-        - id: 00000000-0000-4000-8000-000000000002
-          state: Ready
-          interfaces:
-            - hostname: mock-host-2.nico.nvidia.com
-              mac_address: 58:a2:e1:5b:d1:b2
-              addresses:
-                - 10.10.0.12
-              segment_id: 00000000-0000-4000-9000-000000000000
-              primary_interface: true
-          discovery_info:
-            blockDevices:
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201198
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201199
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201200
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201201
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019130
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019132
-                - deviceType: disk
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64FNN0X034203
-            cpuInfo:
-                - cores: 16
-                  model: AMD EPYC 9115 16-Core Processor
-                  sockets: 1
-                  threads: 16
-                  vendor: AuthenticAMD
-            dmiData:
-                biosDate: 04/01/2026
-                biosVersion: R23_F20
-                boardName: MZG3-GU0-002
-                boardSerial: PK1N6300087
-                boardVersion: "03000302"
-                chassisSerial: 2451R26302R1.0U1059
-                productName: R263-ZG0-AAL2-002
-                productSerial: DPG5NS621A0002
-                sysVendor: Giga Computing
-            gpus:
-                - driverVersion: 580.126.16
-                  frequency: 930 MHz
-                  inforomVersion: 1001.0205.00.02
-                  name: NVIDIA A30
-                  pciBusId: 00000000:C1:00.0
-                  serial: "1651922012477"
-                  totalMemory: 24576 MiB
-                  vbiosVersion: 92.00.66.00.04
-            infinibandInterfaces:
-                - guid: "0000000000000009"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
-                    slot: 0000:e1:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000010"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
-                    slot: 0000:e1:00.1
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000011"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
-                    slot: 0000:e2:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000012"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
-                    slot: 0000:e2:00.1
-                    vendor: Mellanox Technologies
-            machineArch: X86_64
-            machineType: x86_64
-            memoryDevices:
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-            networkInterfaces:
-                - macAddress: 58:A2:E1:5B:D1:B2
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/3
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:08"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
-                    slot: 0000:a3:00.0
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/14
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:09"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
-                    slot: 0000:a3:00.1
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/3
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: 52:54:00:12:00:0A
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
-                    slot: 0000:a3:00.2
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/14
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: 52:54:00:12:00:0B
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
-                    slot: 0000:a3:00.3
-                    vendor: Intel Corporation
-            nvmeDevices:
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201198
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201199
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201200
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201201
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019130
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019132
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  serial: S64FNN0X034203
-          machine_capabilities:
-            - type: CPU
-              name: AMD EPYC 9115 16-Core Processor
-              vendor: AuthenticAMD
-              count: 1
-            - type: DPU
-              name: DPU
-              count: 1
-            - type: Network
-              name: I350 Gigabit Network Connection
-              vendor: Intel Corporation
-              count: 2
-            - type: Network
-              name: MT43244 BlueField-3 integrated ConnectX-7 network controller
-              vendor: Mellanox Technologies
-              count: 1
-              device_type: DPU
-            - type: Storage
-              name: SAMSUNG MZQL21T9HCJR-00A07
-              count: 4
-            - type: GPU
-              name: NVIDIA A30
-              count: 1
-              frequency: 930 MHz
-              capacity: 24576 MiB
-              device_type: NVLink
-            - type: Memory
-              name: DDR5
-              count: 1
-              capacity: 262144 MB
-            - type: InfiniBand
-              name: MT28800 Family [ConnectX-5 Ex]
-              vendor: Mellanox Technologies
-              count: 4
-            - type: Storage
-              name: SAMSUNG MZQL23T8HCLS-00A07
-              count: 8
-            - type: Storage
-              name: SAMSUNG MZQL2960HCJR-00A07
-              count: 2
-        - id: 00000000-0000-4000-8000-000000000003
-          state: Ready
-          interfaces:
-            - hostname: mock-host-3.nico.nvidia.com
-              mac_address: 58:a2:e1:5b:d1:b3
-              addresses:
-                - 10.10.0.13
-              segment_id: 00000000-0000-4000-9000-000000000000
-              primary_interface: true
-          discovery_info:
-            blockDevices:
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201199
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201200
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201201
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201202
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019131
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019133
-                - deviceType: disk
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64FNN0X034204
-            cpuInfo:
-                - cores: 16
-                  model: AMD EPYC 9115 16-Core Processor
-                  sockets: 1
-                  threads: 16
-                  vendor: AuthenticAMD
-            dmiData:
-                biosDate: 04/01/2026
-                biosVersion: R23_F20
-                boardName: MZG3-GU0-003
-                boardSerial: PK1N6300088
-                boardVersion: "03000303"
-                chassisSerial: 2451R26302R1.0U1060
-                productName: R263-ZG0-AAL2-003
-                productSerial: DPG5NS621A0003
-                sysVendor: Giga Computing
-            gpus:
-                - driverVersion: 580.126.16
-                  frequency: 930 MHz
-                  inforomVersion: 1001.0205.00.02
-                  name: NVIDIA A30
-                  pciBusId: 00000000:C1:00.0
-                  serial: "1651922012478"
-                  totalMemory: 24576 MiB
-                  vbiosVersion: 92.00.66.00.04
-            infinibandInterfaces:
-                - guid: "0000000000000013"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
-                    slot: 0000:e1:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000014"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
-                    slot: 0000:e1:00.1
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000015"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
-                    slot: 0000:e2:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000016"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
-                    slot: 0000:e2:00.1
-                    vendor: Mellanox Technologies
-            machineArch: X86_64
-            machineType: x86_64
-            memoryDevices:
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-            networkInterfaces:
-                - macAddress: 58:A2:E1:5B:D1:B3
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/4
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: 52:54:00:12:00:0C
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
-                    slot: 0000:a3:00.0
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/15
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: 52:54:00:12:00:0D
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
-                    slot: 0000:a3:00.1
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/4
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: 52:54:00:12:00:0E
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
-                    slot: 0000:a3:00.2
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/15
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: 52:54:00:12:00:0F
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
-                    slot: 0000:a3:00.3
-                    vendor: Intel Corporation
-            nvmeDevices:
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201199
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201200
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201201
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201202
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019131
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019133
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  serial: S64FNN0X034204
-          machine_capabilities:
-            - type: CPU
-              name: AMD EPYC 9115 16-Core Processor
-              vendor: AuthenticAMD
-              count: 1
-            - type: DPU
-              name: DPU
-              count: 1
-            - type: Network
-              name: I350 Gigabit Network Connection
-              vendor: Intel Corporation
-              count: 2
-            - type: Network
-              name: MT43244 BlueField-3 integrated ConnectX-7 network controller
-              vendor: Mellanox Technologies
-              count: 1
-              device_type: DPU
-            - type: Storage
-              name: SAMSUNG MZQL21T9HCJR-00A07
-              count: 4
-            - type: GPU
-              name: NVIDIA A30
-              count: 1
-              frequency: 930 MHz
-              capacity: 24576 MiB
-              device_type: NVLink
-            - type: Memory
-              name: DDR5
-              count: 1
-              capacity: 262144 MB
-            - type: InfiniBand
-              name: MT28800 Family [ConnectX-5 Ex]
-              vendor: Mellanox Technologies
-              count: 4
-            - type: Storage
-              name: SAMSUNG MZQL23T8HCLS-00A07
-              count: 8
-            - type: Storage
-              name: SAMSUNG MZQL2960HCJR-00A07
-              count: 2
-        - id: 00000000-0000-4000-8000-000000000004
-          state: Ready
-          interfaces:
-            - hostname: mock-host-4.nico.nvidia.com
-              mac_address: 58:a2:e1:5b:d1:b4
-              addresses:
-                - 10.10.0.14
-              segment_id: 00000000-0000-4000-9000-000000000000
-              primary_interface: true
-          discovery_info:
-            blockDevices:
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201200
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201201
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201202
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201203
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019132
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019134
-                - deviceType: disk
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64FNN0X034205
-            cpuInfo:
-                - cores: 16
-                  model: AMD EPYC 9115 16-Core Processor
-                  sockets: 1
-                  threads: 16
-                  vendor: AuthenticAMD
-            dmiData:
-                biosDate: 04/01/2026
-                biosVersion: R23_F20
-                boardName: MZG3-GU0-004
-                boardSerial: PK1N6300089
-                boardVersion: "03000304"
-                chassisSerial: 2451R26302R1.0U1061
-                productName: R263-ZG0-AAL2-004
-                productSerial: DPG5NS621A0004
-                sysVendor: Giga Computing
-            gpus:
-                - driverVersion: 580.126.16
-                  frequency: 930 MHz
-                  inforomVersion: 1001.0205.00.02
-                  name: NVIDIA A30
-                  pciBusId: 00000000:C1:00.0
-                  serial: "1651922012479"
-                  totalMemory: 24576 MiB
-                  vbiosVersion: 92.00.66.00.04
-            infinibandInterfaces:
-                - guid: "0000000000000017"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
-                    slot: 0000:e1:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000018"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
-                    slot: 0000:e1:00.1
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000019"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
-                    slot: 0000:e2:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000020"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
-                    slot: 0000:e2:00.1
-                    vendor: Mellanox Technologies
-            machineArch: X86_64
-            machineType: x86_64
-            memoryDevices:
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-            networkInterfaces:
-                - macAddress: 58:A2:E1:5B:D1:B4
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/5
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:10"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
-                    slot: 0000:a3:00.0
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/16
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:11"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
-                    slot: 0000:a3:00.1
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/5
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:12"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
-                    slot: 0000:a3:00.2
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/16
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:13"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
-                    slot: 0000:a3:00.3
-                    vendor: Intel Corporation
-            nvmeDevices:
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201200
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201201
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201202
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201203
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019132
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019134
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  serial: S64FNN0X034205
-          machine_capabilities:
-            - type: CPU
-              name: AMD EPYC 9115 16-Core Processor
-              vendor: AuthenticAMD
-              count: 1
-            - type: DPU
-              name: DPU
-              count: 1
-            - type: Network
-              name: I350 Gigabit Network Connection
-              vendor: Intel Corporation
-              count: 2
-            - type: Network
-              name: MT43244 BlueField-3 integrated ConnectX-7 network controller
-              vendor: Mellanox Technologies
-              count: 1
-              device_type: DPU
-            - type: Storage
-              name: SAMSUNG MZQL21T9HCJR-00A07
-              count: 4
-            - type: GPU
-              name: NVIDIA A30
-              count: 1
-              frequency: 930 MHz
-              capacity: 24576 MiB
-              device_type: NVLink
-            - type: Memory
-              name: DDR5
-              count: 1
-              capacity: 262144 MB
-            - type: InfiniBand
-              name: MT28800 Family [ConnectX-5 Ex]
-              vendor: Mellanox Technologies
-              count: 4
-            - type: Storage
-              name: SAMSUNG MZQL23T8HCLS-00A07
-              count: 8
-            - type: Storage
-              name: SAMSUNG MZQL2960HCJR-00A07
-              count: 2
-        - id: 00000000-0000-4000-8000-000000000005
-          state: Ready
-          interfaces:
-            - hostname: mock-host-5.nico.nvidia.com
-              mac_address: 58:a2:e1:5b:d1:b5
-              addresses:
-                - 10.10.0.15
-              segment_id: 00000000-0000-4000-9000-000000000000
-              primary_interface: true
-          discovery_info:
-            blockDevices:
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201201
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201202
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201203
-                - deviceType: disk
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  revision: GDC5A02Q
-                  serial: S64HNT0Y2201204
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019133
-                - deviceType: disk
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64GNN0W019135
-                - deviceType: disk
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  revision: GDC5A02Q
-                  serial: S64FNN0X034206
-            cpuInfo:
-                - cores: 16
-                  model: AMD EPYC 9115 16-Core Processor
-                  sockets: 1
-                  threads: 16
-                  vendor: AuthenticAMD
-            dmiData:
-                biosDate: 04/01/2026
-                biosVersion: R23_F20
-                boardName: MZG3-GU0-005
-                boardSerial: PK1N6300090
-                boardVersion: "03000305"
-                chassisSerial: 2451R26302R1.0U1062
-                productName: R263-ZG0-AAL2-005
-                productSerial: DPG5NS621A0005
-                sysVendor: Giga Computing
-            gpus:
-                - driverVersion: 580.126.16
-                  frequency: 930 MHz
-                  inforomVersion: 1001.0205.00.02
-                  name: NVIDIA A30
-                  pciBusId: 00000000:C1:00.0
-                  serial: "1651922012480"
-                  totalMemory: 24576 MiB
-                  vbiosVersion: 92.00.66.00.04
-            infinibandInterfaces:
-                - guid: "0000000000000021"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
-                    slot: 0000:e1:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000022"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
-                    slot: 0000:e1:00.1
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000023"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
-                    slot: 0000:e2:00.0
-                    vendor: Mellanox Technologies
-                - guid: "0000000000000024"
-                  pciProperties:
-                    description: MT28800 Family [ConnectX-5 Ex]
-                    device: MT28800 Family [ConnectX-5 Ex]
-                    path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
-                    slot: 0000:e2:00.1
-                    vendor: Mellanox Technologies
-            machineArch: X86_64
-            machineType: x86_64
-            memoryDevices:
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-                - memType: DDR5
-                  sizeMb: 32768
-            networkInterfaces:
-                - macAddress: 58:A2:E1:5B:D1:B5
-                  pciProperties:
-                    description: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    device: MT43244 BlueField-3 integrated ConnectX-7 network controller
-                    path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
-                    slot: "0000:01:00.0"
-                    vendor: Mellanox Technologies
-                - lldp:
-                    portId: ifname=eth1/6
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:14"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
-                    slot: 0000:a3:00.0
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/17
-                    switchId: mac=00:01:00:00:01:00
-                    switchSystemName: leaf-0
-                  macAddress: "52:54:00:12:00:15"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
-                    slot: 0000:a3:00.1
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/6
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:16"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
-                    slot: 0000:a3:00.2
-                    vendor: Intel Corporation
-                - lldp:
-                    portId: ifname=eth1/17
-                    switchId: mac=00:01:00:00:01:01
-                    switchSystemName: leaf-1
-                  macAddress: "52:54:00:12:00:17"
-                  pciProperties:
-                    description: I350 Gigabit Network Connection
-                    device: I350 Gigabit Network Connection
-                    path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
-                    slot: 0000:a3:00.3
-                    vendor: Intel Corporation
-            nvmeDevices:
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201201
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201202
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201203
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL23T8HCLS-00A07
-                  serial: S64HNT0Y2201204
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019133
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL21T9HCJR-00A07
-                  serial: S64GNN0W019135
-                - firmwareRev: GDC5A02Q
-                  model: SAMSUNG MZQL2960HCJR-00A07
-                  serial: S64FNN0X034206
-          machine_capabilities:
-            - type: CPU
-              name: AMD EPYC 9115 16-Core Processor
-              vendor: AuthenticAMD
-              count: 1
-            - type: DPU
-              name: DPU
-              count: 1
-            - type: Network
-              name: I350 Gigabit Network Connection
-              vendor: Intel Corporation
-              count: 2
-            - type: Network
-              name: MT43244 BlueField-3 integrated ConnectX-7 network controller
-              vendor: Mellanox Technologies
-              count: 1
-              device_type: DPU
-            - type: Storage
-              name: SAMSUNG MZQL21T9HCJR-00A07
-              count: 4
-            - type: GPU
-              name: NVIDIA A30
-              count: 1
-              frequency: 930 MHz
-              capacity: 24576 MiB
-              device_type: NVLink
-            - type: Memory
-              name: DDR5
-              count: 1
-              capacity: 262144 MB
-            - type: InfiniBand
-              name: MT28800 Family [ConnectX-5 Ex]
-              vendor: Mellanox Technologies
-              count: 4
-            - type: Storage
-              name: SAMSUNG MZQL23T8HCLS-00A07
-              count: 8
-            - type: Storage
-              name: SAMSUNG MZQL2960HCJR-00A07
-              count: 2
+  machines:
+  - id: 00000000-0000-4000-8000-000000000000
+    state: Ready
+    interfaces:
+    - hostname: mock-host-0.nico.nvidia.com
+      mac_address: 58:a2:e1:5b:d1:b0
+      addresses:
+      - 10.10.0.10
+      segment_id: 00000000-0000-4000-9000-000000000000
+      primary_interface: true
+    discovery_info:
+      blockDevices:
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201196
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201197
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201198
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201199
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019128
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019130
+      - deviceType: disk
+        model: SAMSUNG MZQL2960HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64FNN0X034201
+      cpuInfo:
+      - cores: 16
+        model: AMD EPYC 9115 16-Core Processor
+        sockets: 1
+        threads: 16
+        vendor: AuthenticAMD
+      dmiData:
+        biosDate: 04/01/2026
+        biosVersion: R23_F20
+        boardName: MZG3-GU0-000
+        boardSerial: PK1N6300085
+        boardVersion: '03000300'
+        chassisSerial: 2451R26302R1.0U1057
+        productName: R263-ZG0-AAL2-000
+        productSerial: DPG5NS621A0000
+        sysVendor: Giga Computing
+      gpus:
+      - driverVersion: 580.126.16
+        frequency: 930 MHz
+        inforomVersion: 1001.0205.00.02
+        name: NVIDIA A30
+        pciBusId: 00000000:C1:00.0
+        serial: '1651922012475'
+        totalMemory: 24576 MiB
+        vbiosVersion: 92.00.66.00.04
+      infinibandInterfaces:
+      - guid: '0000000000000001'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
+          slot: 0000:e1:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000002'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
+          slot: 0000:e1:00.1
+          vendor: Mellanox Technologies
+      - guid: '0000000000000003'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
+          slot: 0000:e2:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000004'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
+          slot: 0000:e2:00.1
+          vendor: Mellanox Technologies
+      machineArch: X86_64
+      machineType: x86_64
+      memoryDevices:
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      networkInterfaces:
+      - macAddress: 58:A2:E1:5B:D1:B0
+        pciProperties:
+          description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+          slot: '0000:01:00.0'
+          vendor: Mellanox Technologies
+      - macAddress: '52:54:00:12:00:00'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+          slot: 0000:a3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1
+          switchId: mac=00:01:00:00:02:00
+          switchSystemName: leaf-0
+      - macAddress: '52:54:00:12:00:01'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+          slot: 0000:a3:00.1
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1
+          switchId: mac=00:01:00:00:03:00
+          switchSystemName: leaf-1
+      - macAddress: '52:54:00:12:00:02'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+          slot: 0000:a3:00.2
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:03'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+          slot: 0000:a3:00.3
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:04'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b0/0000:b0:01.0/0000:b0:00.0/net/eth5
+          slot: 0000:b0:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s0
+          switchId: mac=00:01:00:01:02:00
+          switchSystemName: ew-leaf-0
+      - macAddress: '52:54:00:12:00:05'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b1/0000:b1:01.0/0000:b1:00.0/net/eth6
+          slot: 0000:b1:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s0
+          switchId: mac=00:01:00:01:03:00
+          switchSystemName: ew-leaf-1
+      - macAddress: '52:54:00:12:00:06'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b2/0000:b2:01.0/0000:b2:00.0/net/eth7
+          slot: 0000:b2:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s0
+          switchId: mac=00:01:00:01:04:00
+          switchSystemName: ew-leaf-2
+      - macAddress: '52:54:00:12:00:07'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b3/0000:b3:01.0/0000:b3:00.0/net/eth8
+          slot: 0000:b3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s0
+          switchId: mac=00:01:00:01:05:00
+          switchSystemName: ew-leaf-3
+      - macAddress: '52:54:00:12:00:08'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b4/0000:b4:01.0/0000:b4:00.0/net/eth9
+          slot: 0000:b4:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s0
+          switchId: mac=00:01:00:01:06:00
+          switchSystemName: ew-leaf-4
+      - macAddress: '52:54:00:12:00:09'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b5/0000:b5:01.0/0000:b5:00.0/net/eth10
+          slot: 0000:b5:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s0
+          switchId: mac=00:01:00:01:07:00
+          switchSystemName: ew-leaf-5
+      - macAddress: 52:54:00:12:00:0a
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b6/0000:b6:01.0/0000:b6:00.0/net/eth11
+          slot: 0000:b6:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s0
+          switchId: mac=00:01:00:01:08:00
+          switchSystemName: ew-leaf-6
+      - macAddress: 52:54:00:12:00:0b
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b7/0000:b7:01.0/0000:b7:00.0/net/eth12
+          slot: 0000:b7:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s0
+          switchId: mac=00:01:00:01:09:00
+          switchSystemName: ew-leaf-7
+      nvmeDevices:
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201196
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201197
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201198
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201199
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019128
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019130
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL2960HCJR-00A07
+        serial: S64FNN0X034201
+    machine_capabilities:
+    - type: CPU
+      name: AMD EPYC 9115 16-Core Processor
+      vendor: AuthenticAMD
+      count: 1
+    - type: DPU
+      name: DPU
+      count: 1
+    - type: Network
+      name: I350 Gigabit Network Connection
+      vendor: Intel Corporation
+      count: 12
+    - type: Network
+      name: MT43244 BlueField-3 integrated ConnectX-7 network controller
+      vendor: Mellanox Technologies
+      count: 1
+      device_type: DPU
+    - type: Storage
+      name: SAMSUNG MZQL21T9HCJR-00A07
+      count: 4
+    - type: GPU
+      name: NVIDIA A30
+      count: 1
+      frequency: 930 MHz
+      capacity: 24576 MiB
+      device_type: NVLink
+    - type: Memory
+      name: DDR5
+      count: 1
+      capacity: 262144 MB
+    - type: InfiniBand
+      name: MT28800 Family [ConnectX-5 Ex]
+      vendor: Mellanox Technologies
+      count: 4
+    - type: Storage
+      name: SAMSUNG MZQL23T8HCLS-00A07
+      count: 8
+    - type: Storage
+      name: SAMSUNG MZQL2960HCJR-00A07
+      count: 2
+  - id: 00000000-0000-4000-8000-000000000001
+    state: Ready
+    interfaces:
+    - hostname: mock-host-1.nico.nvidia.com
+      mac_address: 58:a2:e1:5b:d1:b1
+      addresses:
+      - 10.10.0.11
+      segment_id: 00000000-0000-4000-9000-000000000000
+      primary_interface: true
+    discovery_info:
+      blockDevices:
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201197
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201198
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201199
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201200
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019129
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019131
+      - deviceType: disk
+        model: SAMSUNG MZQL2960HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64FNN0X034202
+      cpuInfo:
+      - cores: 16
+        model: AMD EPYC 9115 16-Core Processor
+        sockets: 1
+        threads: 16
+        vendor: AuthenticAMD
+      dmiData:
+        biosDate: 04/01/2026
+        biosVersion: R23_F20
+        boardName: MZG3-GU0-001
+        boardSerial: PK1N6300086
+        boardVersion: '03000301'
+        chassisSerial: 2451R26302R1.0U1058
+        productName: R263-ZG0-AAL2-001
+        productSerial: DPG5NS621A0001
+        sysVendor: Giga Computing
+      gpus:
+      - driverVersion: 580.126.16
+        frequency: 930 MHz
+        inforomVersion: 1001.0205.00.02
+        name: NVIDIA A30
+        pciBusId: 00000000:C1:00.0
+        serial: '1651922012476'
+        totalMemory: 24576 MiB
+        vbiosVersion: 92.00.66.00.04
+      infinibandInterfaces:
+      - guid: '0000000000000005'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
+          slot: 0000:e1:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000006'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
+          slot: 0000:e1:00.1
+          vendor: Mellanox Technologies
+      - guid: '0000000000000007'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
+          slot: 0000:e2:00.0
+          vendor: Mellanox Technologies
+      - guid: 0000000000000008
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
+          slot: 0000:e2:00.1
+          vendor: Mellanox Technologies
+      machineArch: X86_64
+      machineType: x86_64
+      memoryDevices:
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      networkInterfaces:
+      - macAddress: 58:A2:E1:5B:D1:B1
+        pciProperties:
+          description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+          slot: '0000:01:00.0'
+          vendor: Mellanox Technologies
+      - macAddress: '52:54:00:12:00:10'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+          slot: 0000:a3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2
+          switchId: mac=00:01:00:00:02:00
+          switchSystemName: leaf-0
+      - macAddress: '52:54:00:12:00:11'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+          slot: 0000:a3:00.1
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2
+          switchId: mac=00:01:00:00:03:00
+          switchSystemName: leaf-1
+      - macAddress: '52:54:00:12:00:12'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+          slot: 0000:a3:00.2
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:13'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+          slot: 0000:a3:00.3
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:14'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b0/0000:b0:01.0/0000:b0:00.0/net/eth5
+          slot: 0000:b0:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s0
+          switchId: mac=00:01:00:01:02:00
+          switchSystemName: ew-leaf-0
+      - macAddress: '52:54:00:12:00:15'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b1/0000:b1:01.0/0000:b1:00.0/net/eth6
+          slot: 0000:b1:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s0
+          switchId: mac=00:01:00:01:03:00
+          switchSystemName: ew-leaf-1
+      - macAddress: '52:54:00:12:00:16'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b2/0000:b2:01.0/0000:b2:00.0/net/eth7
+          slot: 0000:b2:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s0
+          switchId: mac=00:01:00:01:04:00
+          switchSystemName: ew-leaf-2
+      - macAddress: '52:54:00:12:00:17'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b3/0000:b3:01.0/0000:b3:00.0/net/eth8
+          slot: 0000:b3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s0
+          switchId: mac=00:01:00:01:05:00
+          switchSystemName: ew-leaf-3
+      - macAddress: '52:54:00:12:00:18'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b4/0000:b4:01.0/0000:b4:00.0/net/eth9
+          slot: 0000:b4:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s0
+          switchId: mac=00:01:00:01:06:00
+          switchSystemName: ew-leaf-4
+      - macAddress: '52:54:00:12:00:19'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b5/0000:b5:01.0/0000:b5:00.0/net/eth10
+          slot: 0000:b5:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s0
+          switchId: mac=00:01:00:01:07:00
+          switchSystemName: ew-leaf-5
+      - macAddress: 52:54:00:12:00:1a
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b6/0000:b6:01.0/0000:b6:00.0/net/eth11
+          slot: 0000:b6:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s0
+          switchId: mac=00:01:00:01:08:00
+          switchSystemName: ew-leaf-6
+      - macAddress: 52:54:00:12:00:1b
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b7/0000:b7:01.0/0000:b7:00.0/net/eth12
+          slot: 0000:b7:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s0
+          switchId: mac=00:01:00:01:09:00
+          switchSystemName: ew-leaf-7
+      nvmeDevices:
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201197
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201198
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201199
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201200
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019129
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019131
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL2960HCJR-00A07
+        serial: S64FNN0X034202
+    machine_capabilities:
+    - type: CPU
+      name: AMD EPYC 9115 16-Core Processor
+      vendor: AuthenticAMD
+      count: 1
+    - type: DPU
+      name: DPU
+      count: 1
+    - type: Network
+      name: I350 Gigabit Network Connection
+      vendor: Intel Corporation
+      count: 12
+    - type: Network
+      name: MT43244 BlueField-3 integrated ConnectX-7 network controller
+      vendor: Mellanox Technologies
+      count: 1
+      device_type: DPU
+    - type: Storage
+      name: SAMSUNG MZQL21T9HCJR-00A07
+      count: 4
+    - type: GPU
+      name: NVIDIA A30
+      count: 1
+      frequency: 930 MHz
+      capacity: 24576 MiB
+      device_type: NVLink
+    - type: Memory
+      name: DDR5
+      count: 1
+      capacity: 262144 MB
+    - type: InfiniBand
+      name: MT28800 Family [ConnectX-5 Ex]
+      vendor: Mellanox Technologies
+      count: 4
+    - type: Storage
+      name: SAMSUNG MZQL23T8HCLS-00A07
+      count: 8
+    - type: Storage
+      name: SAMSUNG MZQL2960HCJR-00A07
+      count: 2
+  - id: 00000000-0000-4000-8000-000000000002
+    state: Ready
+    interfaces:
+    - hostname: mock-host-2.nico.nvidia.com
+      mac_address: 58:a2:e1:5b:d1:b2
+      addresses:
+      - 10.10.0.12
+      segment_id: 00000000-0000-4000-9000-000000000000
+      primary_interface: true
+    discovery_info:
+      blockDevices:
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201198
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201199
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201200
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201201
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019130
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019132
+      - deviceType: disk
+        model: SAMSUNG MZQL2960HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64FNN0X034203
+      cpuInfo:
+      - cores: 16
+        model: AMD EPYC 9115 16-Core Processor
+        sockets: 1
+        threads: 16
+        vendor: AuthenticAMD
+      dmiData:
+        biosDate: 04/01/2026
+        biosVersion: R23_F20
+        boardName: MZG3-GU0-002
+        boardSerial: PK1N6300087
+        boardVersion: '03000302'
+        chassisSerial: 2451R26302R1.0U1059
+        productName: R263-ZG0-AAL2-002
+        productSerial: DPG5NS621A0002
+        sysVendor: Giga Computing
+      gpus:
+      - driverVersion: 580.126.16
+        frequency: 930 MHz
+        inforomVersion: 1001.0205.00.02
+        name: NVIDIA A30
+        pciBusId: 00000000:C1:00.0
+        serial: '1651922012477'
+        totalMemory: 24576 MiB
+        vbiosVersion: 92.00.66.00.04
+      infinibandInterfaces:
+      - guid: 0000000000000009
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
+          slot: 0000:e1:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000010'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
+          slot: 0000:e1:00.1
+          vendor: Mellanox Technologies
+      - guid: '0000000000000011'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
+          slot: 0000:e2:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000012'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
+          slot: 0000:e2:00.1
+          vendor: Mellanox Technologies
+      machineArch: X86_64
+      machineType: x86_64
+      memoryDevices:
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      networkInterfaces:
+      - macAddress: 58:A2:E1:5B:D1:B2
+        pciProperties:
+          description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+          slot: '0000:01:00.0'
+          vendor: Mellanox Technologies
+      - macAddress: '52:54:00:12:00:20'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+          slot: 0000:a3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3
+          switchId: mac=00:01:00:00:02:00
+          switchSystemName: leaf-0
+      - macAddress: '52:54:00:12:00:21'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+          slot: 0000:a3:00.1
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3
+          switchId: mac=00:01:00:00:03:00
+          switchSystemName: leaf-1
+      - macAddress: '52:54:00:12:00:22'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+          slot: 0000:a3:00.2
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:23'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+          slot: 0000:a3:00.3
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:24'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b0/0000:b0:01.0/0000:b0:00.0/net/eth5
+          slot: 0000:b0:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s1
+          switchId: mac=00:01:00:01:02:00
+          switchSystemName: ew-leaf-0
+      - macAddress: '52:54:00:12:00:25'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b1/0000:b1:01.0/0000:b1:00.0/net/eth6
+          slot: 0000:b1:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s1
+          switchId: mac=00:01:00:01:03:00
+          switchSystemName: ew-leaf-1
+      - macAddress: '52:54:00:12:00:26'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b2/0000:b2:01.0/0000:b2:00.0/net/eth7
+          slot: 0000:b2:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s1
+          switchId: mac=00:01:00:01:04:00
+          switchSystemName: ew-leaf-2
+      - macAddress: '52:54:00:12:00:27'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b3/0000:b3:01.0/0000:b3:00.0/net/eth8
+          slot: 0000:b3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s1
+          switchId: mac=00:01:00:01:05:00
+          switchSystemName: ew-leaf-3
+      - macAddress: '52:54:00:12:00:28'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b4/0000:b4:01.0/0000:b4:00.0/net/eth9
+          slot: 0000:b4:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s1
+          switchId: mac=00:01:00:01:06:00
+          switchSystemName: ew-leaf-4
+      - macAddress: '52:54:00:12:00:29'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b5/0000:b5:01.0/0000:b5:00.0/net/eth10
+          slot: 0000:b5:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s1
+          switchId: mac=00:01:00:01:07:00
+          switchSystemName: ew-leaf-5
+      - macAddress: 52:54:00:12:00:2a
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b6/0000:b6:01.0/0000:b6:00.0/net/eth11
+          slot: 0000:b6:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s1
+          switchId: mac=00:01:00:01:08:00
+          switchSystemName: ew-leaf-6
+      - macAddress: 52:54:00:12:00:2b
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b7/0000:b7:01.0/0000:b7:00.0/net/eth12
+          slot: 0000:b7:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp1s1
+          switchId: mac=00:01:00:01:09:00
+          switchSystemName: ew-leaf-7
+      nvmeDevices:
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201198
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201199
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201200
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201201
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019130
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019132
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL2960HCJR-00A07
+        serial: S64FNN0X034203
+    machine_capabilities:
+    - type: CPU
+      name: AMD EPYC 9115 16-Core Processor
+      vendor: AuthenticAMD
+      count: 1
+    - type: DPU
+      name: DPU
+      count: 1
+    - type: Network
+      name: I350 Gigabit Network Connection
+      vendor: Intel Corporation
+      count: 12
+    - type: Network
+      name: MT43244 BlueField-3 integrated ConnectX-7 network controller
+      vendor: Mellanox Technologies
+      count: 1
+      device_type: DPU
+    - type: Storage
+      name: SAMSUNG MZQL21T9HCJR-00A07
+      count: 4
+    - type: GPU
+      name: NVIDIA A30
+      count: 1
+      frequency: 930 MHz
+      capacity: 24576 MiB
+      device_type: NVLink
+    - type: Memory
+      name: DDR5
+      count: 1
+      capacity: 262144 MB
+    - type: InfiniBand
+      name: MT28800 Family [ConnectX-5 Ex]
+      vendor: Mellanox Technologies
+      count: 4
+    - type: Storage
+      name: SAMSUNG MZQL23T8HCLS-00A07
+      count: 8
+    - type: Storage
+      name: SAMSUNG MZQL2960HCJR-00A07
+      count: 2
+  - id: 00000000-0000-4000-8000-000000000003
+    state: Ready
+    interfaces:
+    - hostname: mock-host-3.nico.nvidia.com
+      mac_address: 58:a2:e1:5b:d1:b3
+      addresses:
+      - 10.10.0.13
+      segment_id: 00000000-0000-4000-9000-000000000000
+      primary_interface: true
+    discovery_info:
+      blockDevices:
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201199
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201200
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201201
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201202
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019131
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019133
+      - deviceType: disk
+        model: SAMSUNG MZQL2960HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64FNN0X034204
+      cpuInfo:
+      - cores: 16
+        model: AMD EPYC 9115 16-Core Processor
+        sockets: 1
+        threads: 16
+        vendor: AuthenticAMD
+      dmiData:
+        biosDate: 04/01/2026
+        biosVersion: R23_F20
+        boardName: MZG3-GU0-003
+        boardSerial: PK1N6300088
+        boardVersion: '03000303'
+        chassisSerial: 2451R26302R1.0U1060
+        productName: R263-ZG0-AAL2-003
+        productSerial: DPG5NS621A0003
+        sysVendor: Giga Computing
+      gpus:
+      - driverVersion: 580.126.16
+        frequency: 930 MHz
+        inforomVersion: 1001.0205.00.02
+        name: NVIDIA A30
+        pciBusId: 00000000:C1:00.0
+        serial: '1651922012478'
+        totalMemory: 24576 MiB
+        vbiosVersion: 92.00.66.00.04
+      infinibandInterfaces:
+      - guid: '0000000000000013'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
+          slot: 0000:e1:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000014'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
+          slot: 0000:e1:00.1
+          vendor: Mellanox Technologies
+      - guid: '0000000000000015'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
+          slot: 0000:e2:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000016'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
+          slot: 0000:e2:00.1
+          vendor: Mellanox Technologies
+      machineArch: X86_64
+      machineType: x86_64
+      memoryDevices:
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      networkInterfaces:
+      - macAddress: 58:A2:E1:5B:D1:B3
+        pciProperties:
+          description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+          slot: '0000:01:00.0'
+          vendor: Mellanox Technologies
+      - macAddress: '52:54:00:12:00:30'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+          slot: 0000:a3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4
+          switchId: mac=00:01:00:00:02:00
+          switchSystemName: leaf-0
+      - macAddress: '52:54:00:12:00:31'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+          slot: 0000:a3:00.1
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4
+          switchId: mac=00:01:00:00:03:00
+          switchSystemName: leaf-1
+      - macAddress: '52:54:00:12:00:32'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+          slot: 0000:a3:00.2
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:33'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+          slot: 0000:a3:00.3
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:34'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b0/0000:b0:01.0/0000:b0:00.0/net/eth5
+          slot: 0000:b0:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s1
+          switchId: mac=00:01:00:01:02:00
+          switchSystemName: ew-leaf-0
+      - macAddress: '52:54:00:12:00:35'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b1/0000:b1:01.0/0000:b1:00.0/net/eth6
+          slot: 0000:b1:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s1
+          switchId: mac=00:01:00:01:03:00
+          switchSystemName: ew-leaf-1
+      - macAddress: '52:54:00:12:00:36'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b2/0000:b2:01.0/0000:b2:00.0/net/eth7
+          slot: 0000:b2:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s1
+          switchId: mac=00:01:00:01:04:00
+          switchSystemName: ew-leaf-2
+      - macAddress: '52:54:00:12:00:37'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b3/0000:b3:01.0/0000:b3:00.0/net/eth8
+          slot: 0000:b3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s1
+          switchId: mac=00:01:00:01:05:00
+          switchSystemName: ew-leaf-3
+      - macAddress: '52:54:00:12:00:38'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b4/0000:b4:01.0/0000:b4:00.0/net/eth9
+          slot: 0000:b4:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s1
+          switchId: mac=00:01:00:01:06:00
+          switchSystemName: ew-leaf-4
+      - macAddress: '52:54:00:12:00:39'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b5/0000:b5:01.0/0000:b5:00.0/net/eth10
+          slot: 0000:b5:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s1
+          switchId: mac=00:01:00:01:07:00
+          switchSystemName: ew-leaf-5
+      - macAddress: 52:54:00:12:00:3a
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b6/0000:b6:01.0/0000:b6:00.0/net/eth11
+          slot: 0000:b6:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s1
+          switchId: mac=00:01:00:01:08:00
+          switchSystemName: ew-leaf-6
+      - macAddress: 52:54:00:12:00:3b
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b7/0000:b7:01.0/0000:b7:00.0/net/eth12
+          slot: 0000:b7:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp2s1
+          switchId: mac=00:01:00:01:09:00
+          switchSystemName: ew-leaf-7
+      nvmeDevices:
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201199
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201200
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201201
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201202
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019131
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019133
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL2960HCJR-00A07
+        serial: S64FNN0X034204
+    machine_capabilities:
+    - type: CPU
+      name: AMD EPYC 9115 16-Core Processor
+      vendor: AuthenticAMD
+      count: 1
+    - type: DPU
+      name: DPU
+      count: 1
+    - type: Network
+      name: I350 Gigabit Network Connection
+      vendor: Intel Corporation
+      count: 12
+    - type: Network
+      name: MT43244 BlueField-3 integrated ConnectX-7 network controller
+      vendor: Mellanox Technologies
+      count: 1
+      device_type: DPU
+    - type: Storage
+      name: SAMSUNG MZQL21T9HCJR-00A07
+      count: 4
+    - type: GPU
+      name: NVIDIA A30
+      count: 1
+      frequency: 930 MHz
+      capacity: 24576 MiB
+      device_type: NVLink
+    - type: Memory
+      name: DDR5
+      count: 1
+      capacity: 262144 MB
+    - type: InfiniBand
+      name: MT28800 Family [ConnectX-5 Ex]
+      vendor: Mellanox Technologies
+      count: 4
+    - type: Storage
+      name: SAMSUNG MZQL23T8HCLS-00A07
+      count: 8
+    - type: Storage
+      name: SAMSUNG MZQL2960HCJR-00A07
+      count: 2
+  - id: 00000000-0000-4000-8000-000000000004
+    state: Ready
+    interfaces:
+    - hostname: mock-host-4.nico.nvidia.com
+      mac_address: 58:a2:e1:5b:d1:b4
+      addresses:
+      - 10.10.0.14
+      segment_id: 00000000-0000-4000-9000-000000000000
+      primary_interface: true
+    discovery_info:
+      blockDevices:
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201200
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201201
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201202
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201203
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019132
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019134
+      - deviceType: disk
+        model: SAMSUNG MZQL2960HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64FNN0X034205
+      cpuInfo:
+      - cores: 16
+        model: AMD EPYC 9115 16-Core Processor
+        sockets: 1
+        threads: 16
+        vendor: AuthenticAMD
+      dmiData:
+        biosDate: 04/01/2026
+        biosVersion: R23_F20
+        boardName: MZG3-GU0-004
+        boardSerial: PK1N6300089
+        boardVersion: '03000304'
+        chassisSerial: 2451R26302R1.0U1061
+        productName: R263-ZG0-AAL2-004
+        productSerial: DPG5NS621A0004
+        sysVendor: Giga Computing
+      gpus:
+      - driverVersion: 580.126.16
+        frequency: 930 MHz
+        inforomVersion: 1001.0205.00.02
+        name: NVIDIA A30
+        pciBusId: 00000000:C1:00.0
+        serial: '1651922012479'
+        totalMemory: 24576 MiB
+        vbiosVersion: 92.00.66.00.04
+      infinibandInterfaces:
+      - guid: '0000000000000017'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
+          slot: 0000:e1:00.0
+          vendor: Mellanox Technologies
+      - guid: 0000000000000018
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
+          slot: 0000:e1:00.1
+          vendor: Mellanox Technologies
+      - guid: 0000000000000019
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
+          slot: 0000:e2:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000020'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
+          slot: 0000:e2:00.1
+          vendor: Mellanox Technologies
+      machineArch: X86_64
+      machineType: x86_64
+      memoryDevices:
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      networkInterfaces:
+      - macAddress: 58:A2:E1:5B:D1:B4
+        pciProperties:
+          description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+          slot: '0000:01:00.0'
+          vendor: Mellanox Technologies
+      - macAddress: '52:54:00:12:00:40'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+          slot: 0000:a3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp5
+          switchId: mac=00:01:00:00:02:00
+          switchSystemName: leaf-0
+      - macAddress: '52:54:00:12:00:41'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+          slot: 0000:a3:00.1
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp5
+          switchId: mac=00:01:00:00:03:00
+          switchSystemName: leaf-1
+      - macAddress: '52:54:00:12:00:42'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+          slot: 0000:a3:00.2
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:43'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+          slot: 0000:a3:00.3
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:44'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b0/0000:b0:01.0/0000:b0:00.0/net/eth5
+          slot: 0000:b0:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3s0
+          switchId: mac=00:01:00:01:02:00
+          switchSystemName: ew-leaf-0
+      - macAddress: '52:54:00:12:00:45'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b1/0000:b1:01.0/0000:b1:00.0/net/eth6
+          slot: 0000:b1:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3s0
+          switchId: mac=00:01:00:01:03:00
+          switchSystemName: ew-leaf-1
+      - macAddress: '52:54:00:12:00:46'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b2/0000:b2:01.0/0000:b2:00.0/net/eth7
+          slot: 0000:b2:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3s0
+          switchId: mac=00:01:00:01:04:00
+          switchSystemName: ew-leaf-2
+      - macAddress: '52:54:00:12:00:47'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b3/0000:b3:01.0/0000:b3:00.0/net/eth8
+          slot: 0000:b3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3s0
+          switchId: mac=00:01:00:01:05:00
+          switchSystemName: ew-leaf-3
+      - macAddress: '52:54:00:12:00:48'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b4/0000:b4:01.0/0000:b4:00.0/net/eth9
+          slot: 0000:b4:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3s0
+          switchId: mac=00:01:00:01:06:00
+          switchSystemName: ew-leaf-4
+      - macAddress: '52:54:00:12:00:49'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b5/0000:b5:01.0/0000:b5:00.0/net/eth10
+          slot: 0000:b5:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3s0
+          switchId: mac=00:01:00:01:07:00
+          switchSystemName: ew-leaf-5
+      - macAddress: 52:54:00:12:00:4a
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b6/0000:b6:01.0/0000:b6:00.0/net/eth11
+          slot: 0000:b6:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3s0
+          switchId: mac=00:01:00:01:08:00
+          switchSystemName: ew-leaf-6
+      - macAddress: 52:54:00:12:00:4b
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b7/0000:b7:01.0/0000:b7:00.0/net/eth12
+          slot: 0000:b7:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp3s0
+          switchId: mac=00:01:00:01:09:00
+          switchSystemName: ew-leaf-7
+      nvmeDevices:
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201200
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201201
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201202
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201203
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019132
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019134
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL2960HCJR-00A07
+        serial: S64FNN0X034205
+    machine_capabilities:
+    - type: CPU
+      name: AMD EPYC 9115 16-Core Processor
+      vendor: AuthenticAMD
+      count: 1
+    - type: DPU
+      name: DPU
+      count: 1
+    - type: Network
+      name: I350 Gigabit Network Connection
+      vendor: Intel Corporation
+      count: 12
+    - type: Network
+      name: MT43244 BlueField-3 integrated ConnectX-7 network controller
+      vendor: Mellanox Technologies
+      count: 1
+      device_type: DPU
+    - type: Storage
+      name: SAMSUNG MZQL21T9HCJR-00A07
+      count: 4
+    - type: GPU
+      name: NVIDIA A30
+      count: 1
+      frequency: 930 MHz
+      capacity: 24576 MiB
+      device_type: NVLink
+    - type: Memory
+      name: DDR5
+      count: 1
+      capacity: 262144 MB
+    - type: InfiniBand
+      name: MT28800 Family [ConnectX-5 Ex]
+      vendor: Mellanox Technologies
+      count: 4
+    - type: Storage
+      name: SAMSUNG MZQL23T8HCLS-00A07
+      count: 8
+    - type: Storage
+      name: SAMSUNG MZQL2960HCJR-00A07
+      count: 2
+  - id: 00000000-0000-4000-8000-000000000005
+    state: Ready
+    interfaces:
+    - hostname: mock-host-5.nico.nvidia.com
+      mac_address: 58:a2:e1:5b:d1:b5
+      addresses:
+      - 10.10.0.15
+      segment_id: 00000000-0000-4000-9000-000000000000
+      primary_interface: true
+    discovery_info:
+      blockDevices:
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201201
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201202
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201203
+      - deviceType: disk
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        revision: GDC5A02Q
+        serial: S64HNT0Y2201204
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019133
+      - deviceType: disk
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64GNN0W019135
+      - deviceType: disk
+        model: SAMSUNG MZQL2960HCJR-00A07
+        revision: GDC5A02Q
+        serial: S64FNN0X034206
+      cpuInfo:
+      - cores: 16
+        model: AMD EPYC 9115 16-Core Processor
+        sockets: 1
+        threads: 16
+        vendor: AuthenticAMD
+      dmiData:
+        biosDate: 04/01/2026
+        biosVersion: R23_F20
+        boardName: MZG3-GU0-005
+        boardSerial: PK1N6300090
+        boardVersion: '03000305'
+        chassisSerial: 2451R26302R1.0U1062
+        productName: R263-ZG0-AAL2-005
+        productSerial: DPG5NS621A0005
+        sysVendor: Giga Computing
+      gpus:
+      - driverVersion: 580.126.16
+        frequency: 930 MHz
+        inforomVersion: 1001.0205.00.02
+        name: NVIDIA A30
+        pciBusId: 00000000:C1:00.0
+        serial: '1651922012480'
+        totalMemory: 24576 MiB
+        vbiosVersion: 92.00.66.00.04
+      infinibandInterfaces:
+      - guid: '0000000000000021'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.0/infiniband/ibp225s0f0
+          slot: 0000:e1:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000022'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.4/0000:e1:00.1/infiniband/ibp225s0f1
+          slot: 0000:e1:00.1
+          vendor: Mellanox Technologies
+      - guid: '0000000000000023'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.0/infiniband/ibp226s0f0
+          slot: 0000:e2:00.0
+          vendor: Mellanox Technologies
+      - guid: '0000000000000024'
+        pciProperties:
+          description: MT28800 Family [ConnectX-5 Ex]
+          device: MT28800 Family [ConnectX-5 Ex]
+          path: /devices/pci0000:e0/0000:e0:01.5/0000:e2:00.1/infiniband/ibp226s0f1
+          slot: 0000:e2:00.1
+          vendor: Mellanox Technologies
+      machineArch: X86_64
+      machineType: x86_64
+      memoryDevices:
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      - memType: DDR5
+        sizeMb: 32768
+      networkInterfaces:
+      - macAddress: 58:A2:E1:5B:D1:B5
+        pciProperties:
+          description: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          device: MT43244 BlueField-3 integrated ConnectX-7 network controller
+          path: /devices/pci0000:00/0000:00:01.3/0000:01:00.0/net/eth0
+          slot: '0000:01:00.0'
+          vendor: Mellanox Technologies
+      - macAddress: '52:54:00:12:00:50'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.0/net/eth1
+          slot: 0000:a3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp6
+          switchId: mac=00:01:00:00:02:00
+          switchSystemName: leaf-0
+      - macAddress: '52:54:00:12:00:51'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.1/net/eth2
+          slot: 0000:a3:00.1
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp6
+          switchId: mac=00:01:00:00:03:00
+          switchSystemName: leaf-1
+      - macAddress: '52:54:00:12:00:52'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.2/net/eth3
+          slot: 0000:a3:00.2
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:53'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:a0/0000:a0:01.3/0000:a3:00.3/net/eth4
+          slot: 0000:a3:00.3
+          vendor: Intel Corporation
+      - macAddress: '52:54:00:12:00:54'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b0/0000:b0:01.0/0000:b0:00.0/net/eth5
+          slot: 0000:b0:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4s0
+          switchId: mac=00:01:00:01:02:00
+          switchSystemName: ew-leaf-0
+      - macAddress: '52:54:00:12:00:55'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b1/0000:b1:01.0/0000:b1:00.0/net/eth6
+          slot: 0000:b1:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4s0
+          switchId: mac=00:01:00:01:03:00
+          switchSystemName: ew-leaf-1
+      - macAddress: '52:54:00:12:00:56'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b2/0000:b2:01.0/0000:b2:00.0/net/eth7
+          slot: 0000:b2:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4s0
+          switchId: mac=00:01:00:01:04:00
+          switchSystemName: ew-leaf-2
+      - macAddress: '52:54:00:12:00:57'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b3/0000:b3:01.0/0000:b3:00.0/net/eth8
+          slot: 0000:b3:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4s0
+          switchId: mac=00:01:00:01:05:00
+          switchSystemName: ew-leaf-3
+      - macAddress: '52:54:00:12:00:58'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b4/0000:b4:01.0/0000:b4:00.0/net/eth9
+          slot: 0000:b4:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4s0
+          switchId: mac=00:01:00:01:06:00
+          switchSystemName: ew-leaf-4
+      - macAddress: '52:54:00:12:00:59'
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b5/0000:b5:01.0/0000:b5:00.0/net/eth10
+          slot: 0000:b5:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4s0
+          switchId: mac=00:01:00:01:07:00
+          switchSystemName: ew-leaf-5
+      - macAddress: 52:54:00:12:00:5a
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b6/0000:b6:01.0/0000:b6:00.0/net/eth11
+          slot: 0000:b6:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4s0
+          switchId: mac=00:01:00:01:08:00
+          switchSystemName: ew-leaf-6
+      - macAddress: 52:54:00:12:00:5b
+        pciProperties:
+          description: I350 Gigabit Network Connection
+          device: I350 Gigabit Network Connection
+          path: /devices/pci0000:b7/0000:b7:01.0/0000:b7:00.0/net/eth12
+          slot: 0000:b7:00.0
+          vendor: Intel Corporation
+        lldp:
+          portId: ifname=swp4s0
+          switchId: mac=00:01:00:01:09:00
+          switchSystemName: ew-leaf-7
+      nvmeDevices:
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201201
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201202
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201203
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL23T8HCLS-00A07
+        serial: S64HNT0Y2201204
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019133
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL21T9HCJR-00A07
+        serial: S64GNN0W019135
+      - firmwareRev: GDC5A02Q
+        model: SAMSUNG MZQL2960HCJR-00A07
+        serial: S64FNN0X034206
+    machine_capabilities:
+    - type: CPU
+      name: AMD EPYC 9115 16-Core Processor
+      vendor: AuthenticAMD
+      count: 1
+    - type: DPU
+      name: DPU
+      count: 1
+    - type: Network
+      name: I350 Gigabit Network Connection
+      vendor: Intel Corporation
+      count: 12
+    - type: Network
+      name: MT43244 BlueField-3 integrated ConnectX-7 network controller
+      vendor: Mellanox Technologies
+      count: 1
+      device_type: DPU
+    - type: Storage
+      name: SAMSUNG MZQL21T9HCJR-00A07
+      count: 4
+    - type: GPU
+      name: NVIDIA A30
+      count: 1
+      frequency: 930 MHz
+      capacity: 24576 MiB
+      device_type: NVLink
+    - type: Memory
+      name: DDR5
+      count: 1
+      capacity: 262144 MB
+    - type: InfiniBand
+      name: MT28800 Family [ConnectX-5 Ex]
+      vendor: Mellanox Technologies
+      count: 4
+    - type: Storage
+      name: SAMSUNG MZQL23T8HCLS-00A07
+      count: 8
+    - type: Storage
+      name: SAMSUNG MZQL2960HCJR-00A07
+      count: 2

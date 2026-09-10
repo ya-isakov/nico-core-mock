@@ -40,10 +40,10 @@ ENV LIBGUESTFS_BACKEND=direct
 ENV LIBGUESTFS_SKIP_OS_CHECK=1
 
 COPY --from=builder /nico-core-mock /nico-core-mock
-COPY nico-core-mock/helm/nico-rest-mock-core/rendered/machines.yaml /config/machines.yaml
+COPY nico-core-mock/helm/nico-rest-mock-core/values.yaml /config/values.yaml
 
 EXPOSE 11079
 
 USER root
 ENTRYPOINT ["/nico-core-mock"]
-CMD ["--config", "/config/machines.yaml", "--listen", ":11079"]
+CMD ["--config", "/config/values.yaml", "--listen", ":11079"]

@@ -7,7 +7,7 @@ import (
 )
 
 func TestLoadExampleConfig(t *testing.T) {
-	path := filepath.Join("..", "..", "helm", "nico-rest-mock-core", "rendered", "machines.yaml")
+	path := filepath.Join("..", "..", "helm", "nico-rest-mock-core", "values.yaml")
 	if _, err := os.Stat(path); err != nil {
 		t.Skip("example config not found")
 	}

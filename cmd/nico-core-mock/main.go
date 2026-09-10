@@ -19,7 +19,7 @@ import (
 )
 
 func main() {
-	configPath := flag.String("config", "/config/machines.yaml", "path to machines YAML file")
+	configPath := flag.String("config", "/config/values.yaml", "path to machines YAML (plain machines: or Helm values with inventory:)")
 	listenAddr := flag.String("listen", ":11079", "gRPC listen address")
 	logLevel := flag.String("log-level", "debug", "log level: trace, debug, info, warn, error")
 	libvirtEndpoint := flag.String("libvirt-endpoint", "", "libvirt URI (e.g. qemu+tcp://host:16509/system); when set, only inventory machines with a matching libvirt domain are exposed")

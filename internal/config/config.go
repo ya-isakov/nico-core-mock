@@ -80,6 +80,10 @@ type Inventory struct {
 }
 
 // Load reads and validates a machines YAML file.
+//
+// Accepted shapes:
+//   - plain inventory: { machines: [...], expected_machines?: [...] }
+//   - Helm values.yaml: { inventory: { machines: [...] }, ... } (other keys ignored)
 func Load(path string) (*Inventory, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -89,6 +93,15 @@ func Load(path string) (*Inventory, error) {
 	var file File
 	if err := yaml.Unmarshal(data, &file); err != nil {
 		return nil, fmt.Errorf("parse config %q: %w", path, err)
+	}
+	if len(file.Machines) == 0 {
+		var wrapped struct {
+			Inventory File `yaml:"inventory"`
+		}
+		if err := yaml.Unmarshal(data, &wrapped); err != nil {
+			return nil, fmt.Errorf("parse config %q: %w", path, err)
+		}
+		file = wrapped.Inventory
 	}
 	if len(file.Machines) == 0 {
 		return nil, fmt.Errorf("config %q: at least one machine is required", path)
