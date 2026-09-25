@@ -227,7 +227,7 @@ inventory:
         lldp:
           portId: ifname=swp1s0
           switchId: mac=00:01:00:01:02:00
-          switchSystemName: ew-leaf-0
+          switchSystemName: ewf-leaf-su00-r0
       - macAddress: '52:54:00:12:00:05'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -238,7 +238,7 @@ inventory:
         lldp:
           portId: ifname=swp1s0
           switchId: mac=00:01:00:01:03:00
-          switchSystemName: ew-leaf-1
+          switchSystemName: ewf-leaf-su00-r1
       - macAddress: '52:54:00:12:00:06'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -249,7 +249,7 @@ inventory:
         lldp:
           portId: ifname=swp1s0
           switchId: mac=00:01:00:01:04:00
-          switchSystemName: ew-leaf-2
+          switchSystemName: ewf-leaf-su00-r2
       - macAddress: '52:54:00:12:00:07'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -260,7 +260,7 @@ inventory:
         lldp:
           portId: ifname=swp1s0
           switchId: mac=00:01:00:01:05:00
-          switchSystemName: ew-leaf-3
+          switchSystemName: ewf-leaf-su00-r3
       - macAddress: '52:54:00:12:00:08'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -271,7 +271,7 @@ inventory:
         lldp:
           portId: ifname=swp1s0
           switchId: mac=00:01:00:01:06:00
-          switchSystemName: ew-leaf-4
+          switchSystemName: ewf-leaf-su00-r4
       - macAddress: '52:54:00:12:00:09'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -282,7 +282,7 @@ inventory:
         lldp:
           portId: ifname=swp1s0
           switchId: mac=00:01:00:01:07:00
-          switchSystemName: ew-leaf-5
+          switchSystemName: ewf-leaf-su00-r5
       - macAddress: 52:54:00:12:00:0a
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -293,7 +293,7 @@ inventory:
         lldp:
           portId: ifname=swp1s0
           switchId: mac=00:01:00:01:08:00
-          switchSystemName: ew-leaf-6
+          switchSystemName: ewf-leaf-su00-r6
       - macAddress: 52:54:00:12:00:0b
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -304,7 +304,7 @@ inventory:
         lldp:
           portId: ifname=swp1s0
           switchId: mac=00:01:00:01:09:00
-          switchSystemName: ew-leaf-7
+          switchSystemName: ewf-leaf-su00-r7
       nvmeDevices:
       - firmwareRev: GDC5A02Q
         model: SAMSUNG MZQL23T8HCLS-00A07
@@ -533,7 +533,7 @@ inventory:
         lldp:
           portId: ifname=swp2s0
           switchId: mac=00:01:00:01:02:00
-          switchSystemName: ew-leaf-0
+          switchSystemName: ewf-leaf-su00-r0
       - macAddress: '52:54:00:12:00:15'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -544,7 +544,7 @@ inventory:
         lldp:
           portId: ifname=swp2s0
           switchId: mac=00:01:00:01:03:00
-          switchSystemName: ew-leaf-1
+          switchSystemName: ewf-leaf-su00-r1
       - macAddress: '52:54:00:12:00:16'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -555,7 +555,7 @@ inventory:
         lldp:
           portId: ifname=swp2s0
           switchId: mac=00:01:00:01:04:00
-          switchSystemName: ew-leaf-2
+          switchSystemName: ewf-leaf-su00-r2
       - macAddress: '52:54:00:12:00:17'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -566,7 +566,7 @@ inventory:
         lldp:
           portId: ifname=swp2s0
           switchId: mac=00:01:00:01:05:00
-          switchSystemName: ew-leaf-3
+          switchSystemName: ewf-leaf-su00-r3
       - macAddress: '52:54:00:12:00:18'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -577,7 +577,7 @@ inventory:
         lldp:
           portId: ifname=swp2s0
           switchId: mac=00:01:00:01:06:00
-          switchSystemName: ew-leaf-4
+          switchSystemName: ewf-leaf-su00-r4
       - macAddress: '52:54:00:12:00:19'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -588,7 +588,7 @@ inventory:
         lldp:
           portId: ifname=swp2s0
           switchId: mac=00:01:00:01:07:00
-          switchSystemName: ew-leaf-5
+          switchSystemName: ewf-leaf-su00-r5
       - macAddress: 52:54:00:12:00:1a
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -599,7 +599,7 @@ inventory:
         lldp:
           portId: ifname=swp2s0
           switchId: mac=00:01:00:01:08:00
-          switchSystemName: ew-leaf-6
+          switchSystemName: ewf-leaf-su00-r6
       - macAddress: 52:54:00:12:00:1b
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -610,7 +610,7 @@ inventory:
         lldp:
           portId: ifname=swp2s0
           switchId: mac=00:01:00:01:09:00
-          switchSystemName: ew-leaf-7
+          switchSystemName: ewf-leaf-su00-r7
       nvmeDevices:
       - firmwareRev: GDC5A02Q
         model: SAMSUNG MZQL23T8HCLS-00A07
@@ -839,7 +839,7 @@ inventory:
         lldp:
           portId: ifname=swp1s1
           switchId: mac=00:01:00:01:02:00
-          switchSystemName: ew-leaf-0
+          switchSystemName: ewf-leaf-su00-r0
       - macAddress: '52:54:00:12:00:25'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -850,7 +850,7 @@ inventory:
         lldp:
           portId: ifname=swp1s1
           switchId: mac=00:01:00:01:03:00
-          switchSystemName: ew-leaf-1
+          switchSystemName: ewf-leaf-su00-r1
       - macAddress: '52:54:00:12:00:26'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -861,7 +861,7 @@ inventory:
         lldp:
           portId: ifname=swp1s1
           switchId: mac=00:01:00:01:04:00
-          switchSystemName: ew-leaf-2
+          switchSystemName: ewf-leaf-su00-r2
       - macAddress: '52:54:00:12:00:27'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -872,7 +872,7 @@ inventory:
         lldp:
           portId: ifname=swp1s1
           switchId: mac=00:01:00:01:05:00
-          switchSystemName: ew-leaf-3
+          switchSystemName: ewf-leaf-su00-r3
       - macAddress: '52:54:00:12:00:28'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -883,7 +883,7 @@ inventory:
         lldp:
           portId: ifname=swp1s1
           switchId: mac=00:01:00:01:06:00
-          switchSystemName: ew-leaf-4
+          switchSystemName: ewf-leaf-su00-r4
       - macAddress: '52:54:00:12:00:29'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -894,7 +894,7 @@ inventory:
         lldp:
           portId: ifname=swp1s1
           switchId: mac=00:01:00:01:07:00
-          switchSystemName: ew-leaf-5
+          switchSystemName: ewf-leaf-su00-r5
       - macAddress: 52:54:00:12:00:2a
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -905,7 +905,7 @@ inventory:
         lldp:
           portId: ifname=swp1s1
           switchId: mac=00:01:00:01:08:00
-          switchSystemName: ew-leaf-6
+          switchSystemName: ewf-leaf-su00-r6
       - macAddress: 52:54:00:12:00:2b
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -916,7 +916,7 @@ inventory:
         lldp:
           portId: ifname=swp1s1
           switchId: mac=00:01:00:01:09:00
-          switchSystemName: ew-leaf-7
+          switchSystemName: ewf-leaf-su00-r7
       nvmeDevices:
       - firmwareRev: GDC5A02Q
         model: SAMSUNG MZQL23T8HCLS-00A07
@@ -1145,7 +1145,7 @@ inventory:
         lldp:
           portId: ifname=swp2s1
           switchId: mac=00:01:00:01:02:00
-          switchSystemName: ew-leaf-0
+          switchSystemName: ewf-leaf-su00-r0
       - macAddress: '52:54:00:12:00:35'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1156,7 +1156,7 @@ inventory:
         lldp:
           portId: ifname=swp2s1
           switchId: mac=00:01:00:01:03:00
-          switchSystemName: ew-leaf-1
+          switchSystemName: ewf-leaf-su00-r1
       - macAddress: '52:54:00:12:00:36'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1167,7 +1167,7 @@ inventory:
         lldp:
           portId: ifname=swp2s1
           switchId: mac=00:01:00:01:04:00
-          switchSystemName: ew-leaf-2
+          switchSystemName: ewf-leaf-su00-r2
       - macAddress: '52:54:00:12:00:37'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1178,7 +1178,7 @@ inventory:
         lldp:
           portId: ifname=swp2s1
           switchId: mac=00:01:00:01:05:00
-          switchSystemName: ew-leaf-3
+          switchSystemName: ewf-leaf-su00-r3
       - macAddress: '52:54:00:12:00:38'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1189,7 +1189,7 @@ inventory:
         lldp:
           portId: ifname=swp2s1
           switchId: mac=00:01:00:01:06:00
-          switchSystemName: ew-leaf-4
+          switchSystemName: ewf-leaf-su00-r4
       - macAddress: '52:54:00:12:00:39'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1200,7 +1200,7 @@ inventory:
         lldp:
           portId: ifname=swp2s1
           switchId: mac=00:01:00:01:07:00
-          switchSystemName: ew-leaf-5
+          switchSystemName: ewf-leaf-su00-r5
       - macAddress: 52:54:00:12:00:3a
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1211,7 +1211,7 @@ inventory:
         lldp:
           portId: ifname=swp2s1
           switchId: mac=00:01:00:01:08:00
-          switchSystemName: ew-leaf-6
+          switchSystemName: ewf-leaf-su00-r6
       - macAddress: 52:54:00:12:00:3b
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1222,7 +1222,7 @@ inventory:
         lldp:
           portId: ifname=swp2s1
           switchId: mac=00:01:00:01:09:00
-          switchSystemName: ew-leaf-7
+          switchSystemName: ewf-leaf-su00-r7
       nvmeDevices:
       - firmwareRev: GDC5A02Q
         model: SAMSUNG MZQL23T8HCLS-00A07
@@ -1451,7 +1451,7 @@ inventory:
         lldp:
           portId: ifname=swp3s0
           switchId: mac=00:01:00:01:02:00
-          switchSystemName: ew-leaf-0
+          switchSystemName: ewf-leaf-su00-r0
       - macAddress: '52:54:00:12:00:45'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1462,7 +1462,7 @@ inventory:
         lldp:
           portId: ifname=swp3s0
           switchId: mac=00:01:00:01:03:00
-          switchSystemName: ew-leaf-1
+          switchSystemName: ewf-leaf-su00-r1
       - macAddress: '52:54:00:12:00:46'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1473,7 +1473,7 @@ inventory:
         lldp:
           portId: ifname=swp3s0
           switchId: mac=00:01:00:01:04:00
-          switchSystemName: ew-leaf-2
+          switchSystemName: ewf-leaf-su00-r2
       - macAddress: '52:54:00:12:00:47'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1484,7 +1484,7 @@ inventory:
         lldp:
           portId: ifname=swp3s0
           switchId: mac=00:01:00:01:05:00
-          switchSystemName: ew-leaf-3
+          switchSystemName: ewf-leaf-su00-r3
       - macAddress: '52:54:00:12:00:48'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1495,7 +1495,7 @@ inventory:
         lldp:
           portId: ifname=swp3s0
           switchId: mac=00:01:00:01:06:00
-          switchSystemName: ew-leaf-4
+          switchSystemName: ewf-leaf-su00-r4
       - macAddress: '52:54:00:12:00:49'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1506,7 +1506,7 @@ inventory:
         lldp:
           portId: ifname=swp3s0
           switchId: mac=00:01:00:01:07:00
-          switchSystemName: ew-leaf-5
+          switchSystemName: ewf-leaf-su00-r5
       - macAddress: 52:54:00:12:00:4a
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1517,7 +1517,7 @@ inventory:
         lldp:
           portId: ifname=swp3s0
           switchId: mac=00:01:00:01:08:00
-          switchSystemName: ew-leaf-6
+          switchSystemName: ewf-leaf-su00-r6
       - macAddress: 52:54:00:12:00:4b
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1528,7 +1528,7 @@ inventory:
         lldp:
           portId: ifname=swp3s0
           switchId: mac=00:01:00:01:09:00
-          switchSystemName: ew-leaf-7
+          switchSystemName: ewf-leaf-su00-r7
       nvmeDevices:
       - firmwareRev: GDC5A02Q
         model: SAMSUNG MZQL23T8HCLS-00A07
@@ -1757,7 +1757,7 @@ inventory:
         lldp:
           portId: ifname=swp4s0
           switchId: mac=00:01:00:01:02:00
-          switchSystemName: ew-leaf-0
+          switchSystemName: ewf-leaf-su00-r0
       - macAddress: '52:54:00:12:00:55'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1768,7 +1768,7 @@ inventory:
         lldp:
           portId: ifname=swp4s0
           switchId: mac=00:01:00:01:03:00
-          switchSystemName: ew-leaf-1
+          switchSystemName: ewf-leaf-su00-r1
       - macAddress: '52:54:00:12:00:56'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1779,7 +1779,7 @@ inventory:
         lldp:
           portId: ifname=swp4s0
           switchId: mac=00:01:00:01:04:00
-          switchSystemName: ew-leaf-2
+          switchSystemName: ewf-leaf-su00-r2
       - macAddress: '52:54:00:12:00:57'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1790,7 +1790,7 @@ inventory:
         lldp:
           portId: ifname=swp4s0
           switchId: mac=00:01:00:01:05:00
-          switchSystemName: ew-leaf-3
+          switchSystemName: ewf-leaf-su00-r3
       - macAddress: '52:54:00:12:00:58'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1801,7 +1801,7 @@ inventory:
         lldp:
           portId: ifname=swp4s0
           switchId: mac=00:01:00:01:06:00
-          switchSystemName: ew-leaf-4
+          switchSystemName: ewf-leaf-su00-r4
       - macAddress: '52:54:00:12:00:59'
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1812,7 +1812,7 @@ inventory:
         lldp:
           portId: ifname=swp4s0
           switchId: mac=00:01:00:01:07:00
-          switchSystemName: ew-leaf-5
+          switchSystemName: ewf-leaf-su00-r5
       - macAddress: 52:54:00:12:00:5a
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1823,7 +1823,7 @@ inventory:
         lldp:
           portId: ifname=swp4s0
           switchId: mac=00:01:00:01:08:00
-          switchSystemName: ew-leaf-6
+          switchSystemName: ewf-leaf-su00-r6
       - macAddress: 52:54:00:12:00:5b
         pciProperties:
           description: I350 Gigabit Network Connection
@@ -1834,7 +1834,7 @@ inventory:
         lldp:
           portId: ifname=swp4s0
           switchId: mac=00:01:00:01:09:00
-          switchSystemName: ew-leaf-7
+          switchSystemName: ewf-leaf-su00-r7
       nvmeDevices:
       - firmwareRev: GDC5A02Q
         model: SAMSUNG MZQL23T8HCLS-00A07
